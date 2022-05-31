@@ -1,0 +1,48 @@
+env: 
+
+initial-cluster-setup:
+  google-oauth:
+    GoogleEnabled: # [true | false]
+    GoogleClientSecret: 
+    GoogleClientId: 
+    GoogleRestrictedDomain: 
+
+  github-oauth:
+    GitEnabled: # [true | false]
+    GitClientSecret: 
+    GitClientId: 
+    GitRestrOrgs: 
+    # TODO HTPasswd Identity Provider
+  
+  cluster-config:
+    ArgocdWorkflowrepositoryUsername: 
+    ArgocdWorkflowrepositorySshPrivateKey: 
+  
+  cluster-issuer:
+    SolversAccesKeyId:
+    SolversSecretAccessKey:
+
+  console-patches:
+    RouteNameOverride: # [true | false]
+
+cluster-setup-checkpoint:
+  rook-ceph-instance:
+    RookCephInstanceEnabled: # [true | false]
+
+cluster-applications:
+  cluster-updater:
+    SlackChannel: 
+
+  cluster-logging:
+    ClusterLoggingEnabled: # [true | false]
+    ClusterLoggingRequestMemory: 
+    ClusterLoggingLimitsMemory: 
+  
+  cluster-monitoring:
+    InfranodesEnabled: # [true | false]
+    # Path to alertmanager config file, empty => use default
+    AlertmanagerConfig: 
+
+  gepaplexx-cicd-tools:
+    PostgresqlPassword: 
+    PostgresqlPostgresPassword:
