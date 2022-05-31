@@ -16,7 +16,7 @@ initial-cluster-setup:
   
   cluster-config:
     ArgocdWorkflowrepositoryUsername: 
-    ArgocdWorkflowrepositorySshPrivateKey: 
+    ArgocdWorkflowrepositorySshPrivateKeyBase64: 
   
   cluster-issuer:
     SolversAccesKeyId:
