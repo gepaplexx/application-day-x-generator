@@ -3,6 +3,7 @@ package util
 import (
 	"bytes"
 	"fmt"
+	"os/exec"
 	"strings"
 
 	b64 "encoding/base64"
@@ -118,4 +119,13 @@ func findValue(m map[string]any, keys ...string) (rval any, err error) {
 	} else { // 1+ more keys
 		return findValue(m, keys[1:]...)
 	}
+}
+
+func IsCommandAvailable(name string) bool {
+	cmd := exec.Command("/bin/sh", "-c", "command -v", name)
+	if err := cmd.Run(); err != nil {
+		return false
+	}
+
+	return true
 }

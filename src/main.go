@@ -19,18 +19,34 @@ func readYamlConfiguration(path string) ([]byte, error) {
 	return config, nil
 }
 
-func run() {
-	args := os.Args[1:]
-	utils.PrintDescription(args[0]) // TODO check arguments
+func prerequisitesMet() bool {
+	utils.PrintAction("kubeseal")
+	installed := utils.IsCommandAvailable("kubeseal")
+	if !installed {
+		utils.PrintFailure()
+		return false
+	}
+	utils.PrintSuccess()
+
+	return true
+}
+
+func run(configFile string) {
+	utils.PrintDescription(configFile)
 	utils.WaitToContinue()
 
-	config, err := readYamlConfiguration(args[0])
+	config, err := readYamlConfiguration(configFile)
 	if err != nil {
 		log.Fatal("Cannot read config file: ", err)
 		return
 	}
 
-	// TODO check prerequisites
+	utils.PrintActionHeader("CHECK PREREQUISITES")
+	met := prerequisitesMet()
+	if !met {
+		log.Fatal("Prerequisites not met")
+		return
+	}
 
 	// TODO target aus config lesen => default = generated
 	err = os.MkdirAll("generated", os.ModePerm)
@@ -57,10 +73,16 @@ func run() {
 	}
 
 	// TODO erst ganz am Ende augeben inkl. Anleitung was zu tun ist
+	// utils.WaitToContinue()
 	// fmt.Println(vaultCertificate)
 	// fmt.Println(vaultPrivateKey)
 }
 
 func main() {
-	run()
+	args := os.Args[1:]
+	if len(args) == 0 {
+		panic("No config file was specified...")
+	}
+
+	run(args[0])
 }

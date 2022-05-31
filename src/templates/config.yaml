@@ -40,6 +40,7 @@ cluster-applications:
   
   cluster-monitoring:
     InfranodesEnabled: # [true | false]
+    SlackChannel: 
     # Path to alertmanager config file, empty => use default
     AlertmanagerConfig: 
 
