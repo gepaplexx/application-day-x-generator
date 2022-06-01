@@ -12,6 +12,11 @@ var GENERATORS = []Generator{
 		Name:         "github-oauth",
 	},
 	{
+		ValueBuilder: &HtpasswdValueBuilder{},
+		Stage:        InitialClusterSetup,
+		Name:         "htpasswd",
+	},
+	{
 		ValueBuilder: &ClusterConfigValueBuilder{},
 		Stage:        InitialClusterSetup,
 		Name:         "cluster-config",

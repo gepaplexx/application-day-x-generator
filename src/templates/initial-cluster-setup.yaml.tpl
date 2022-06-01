@@ -77,6 +77,12 @@ applications:
         {{- end }}
         - name: "git.enable"
           value: "{{ .GitEnabled }}"
+        - name: "htpasswd.enable"
+          value: "{{ .HtpasswdEnabled }}"
+        {{- if .HtpasswdEnabled.Val }}          
+        - name: "htpasswd.data"
+          value: "{{ .HtpasswdData }}"
+        {{- end }}
     syncPolicy:
       automated:
         prune: true

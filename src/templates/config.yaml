@@ -12,7 +12,10 @@ initial-cluster-setup:
     GitClientSecret: 
     GitClientId: 
     GitRestrOrgs: 
-    # TODO HTPasswd Identity Provider
+    
+  htpasswd:
+    HtpasswdEnabled: # [true | false]
+    HtpasswdData: 
   
   cluster-config:
     ArgocdWorkflowrepositoryUsername: 
