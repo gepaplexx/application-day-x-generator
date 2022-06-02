@@ -1,5 +1,7 @@
 # application-day-x-generator
 
+Dieses Repository enthält ein Tool zum Generieren der values.yaml-Dateien, welche zum Aufsetzen eines neuen Clusters benötigt werden.
+
 ## Erweiterung
 
 Um einen neuen Generator zu implementieren sind folgende Schritte notwendig:
@@ -91,4 +93,5 @@ var GENERATORS = []Generator{
         - ```go run . config.yaml```
     - Via docker: 
         - ```docker run --rm -it -v $(pwd)/config.yaml:/app/config.yaml -v $(pwd)/generated:/app/generated ghcr.io/gepaplexx/day-x-generator config.yaml```
-- Im Verzeichnis "generated" befinden sich die generierten Value-Files und Key/Zertifikat zum entschlüsseln
+- Im Verzeichnis "generated" befinden sich die generierten Value-Files und Key/Zertifikat zum entschlüsseln der SealedSecrets
+- Hinweis: Existiert bereits ein Verzeichnis “generated” und enthält dieses einen Private Key und eine Zertifikat für die jeweilige Umgebung ([env].crt und [env.key]) werden diese verwendet und keine neuen generiert.
