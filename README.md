@@ -35,18 +35,14 @@ cluster-applications:
 // Datei pgk/src/generator/MyNewValueBuilder.go
 package generator
 
-import (
-	"gepaplexx/day-x-generator/pkg/util"
-)
-
 type MyNewValueBuilder struct{}
 
 func (gen *MyNewValueBuilder) GetValues(config map[string]Value) (map[string]Value, error) {
-	values := make(map[string]Value)
+    values := make(map[string]Value)
 
-	// TODO
+    // TODO
 
-	return values, nil
+    return values, nil
 }
 ```
 
@@ -56,18 +52,18 @@ func (gen *MyNewValueBuilder) GetValues(config map[string]Value) (map[string]Val
 package generator
 
 import (
-	utils "gepaplexx/day-x-generator/pkg/util"
+    utils "gepaplexx/day-x-generator/pkg/util"
 )
 
 type MyNewValueBuilder struct{}
 
 func (gen *MyNewValueBuilder) GetValues(config map[string]Value) (map[string]Value, error) {
-	values := make(map[string]Value)
+    values := make(map[string]Value)
 
-	values["key1"] = config["val1"]
+    values["key1"] = config["val1"]
     values["key2"] = utils.Base64(config["key2"])
 
-	return values, nil
+    return values, nil
 }
 ```
 - Neuen Generator aktivieren: Dazu muss ein neuer Eintrag in src/pkg/generator/Configuration.go gemacht werden. Bsp.:
@@ -75,11 +71,11 @@ func (gen *MyNewValueBuilder) GetValues(config map[string]Value) (map[string]Val
 // Datei src/pkg/generator/Configuration.go
 ...
 var GENERATORS = []Generator{
-	{
-		ValueBuilder: &MyNewValueBuilder{},
-		Stage:        ClusterApplications,
-		Name:         "my-new-value-builder",
-	},
+    {
+        ValueBuilder: &MyNewValueBuilder{},
+        Stage:        ClusterApplications,
+        Name:         "my-new-value-builder",
+    },
 }
 ...
 ```
