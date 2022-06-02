@@ -83,11 +83,11 @@ var GENERATORS = []Generator{
 ## Verwendung
 
 - Vorlagen/config.yaml kopieren und für die jeweilige Umgebung ausfüllen
-- Ausführen des Generators (Annahme: augefülltes config.yaml liegt im aktuellen Verzeichnis):
+- Ausführen des Generators:
     - Via go: 
         - Nach "src" wechseln
-        - ```go run . config.yaml```
-    - Via docker: 
+        - ```go run . /path/to/config.yaml```
+    - Via docker (Annahme: augefülltes config.yaml liegt im aktuellen Verzeichnis): 
         - ```docker run --rm -it -v $(pwd)/config.yaml:/app/config.yaml -v $(pwd)/generated:/app/generated ghcr.io/gepaplexx/day-x-generator config.yaml```
 - Im Verzeichnis "generated" befinden sich die generierten Value-Files und Key/Zertifikat zum entschlüsseln der SealedSecrets
-- Hinweis: Existiert bereits ein Verzeichnis “generated” und enthält dieses einen Private Key und eine Zertifikat für die jeweilige Umgebung ([env].crt und [env.key]) werden diese verwendet und keine neuen generiert.
+- **Hinweis:** Existiert bereits ein Verzeichnis “generated” und enthält dieses einen Private Key und ein Zertifikat für die jeweilige Umgebung ([env].crt und [env.key]) werden diese verwendet und keine neuen generiert.
