@@ -15,7 +15,7 @@ jobs:
       - name: source-version
         id: source-version
         run: |
-          echo "::set-output name=version::$(cat day-2-setup-generator/version)"
+          echo "::set-output name=version::$(cat version)"
       - uses: mr-smithers-excellent/docker-build-push@v5
         name: push-container-image
         with:
