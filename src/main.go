@@ -47,6 +47,7 @@ func run(configFile string) {
 		log.Fatal("Prerequisites not met")
 		return
 	}
+	//TODO: check if required parameters are set in config or fail with error message!
 
 	// TODO target aus config lesen => default = generated
 	err = os.MkdirAll("generated", os.ModePerm)
