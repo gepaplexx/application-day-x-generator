@@ -15,6 +15,12 @@ applications:
       repoURL: "https://gepaplexx.github.io/gp-helm-chart-development/"
       chart: gp-storage-cephcluster
       targetRevision: "*"
+      helm:
+        parameters:
+        - name: "cephcluster.monitoring.alerts.environment"
+          value: "{{ .env }}"
+        - name: "cephcluster.monitoring.alerts.slackurl"
+          value: "{{ .SlackChannel }}"
     ignoreDifferences:
       - group: ceph.rook.io
         kind: CephCluster
