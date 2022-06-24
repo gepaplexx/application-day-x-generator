@@ -11,7 +11,7 @@ const GP_ROOK_CEPH_INSTANCE_SECRET_TEMPLATE string = `
 kind: Secret
 apiVersion: v1
 metadata:
-  name: slack-url
+  name: slack-hook
   namespace: rook-ceph
 data:
   url: {{ .SlackChannel }}
@@ -22,6 +22,7 @@ type: Opaque
 func (gen *RookCephInstanceValueBuilder) GetValues(config map[string]Value) (map[string]Value, error) {
 	values := make(map[string]Value)
 	values["RookCephInstanceEnabled"] = config["RookCephInstanceEnabled"]
+	values["SlackChannel"] = config["SlackChannel"]
 
 	secretVals := make(map[string]string, 1)
 	secretVals["SlackChannel"] = utils.Base64(config["SlackChannel"])
