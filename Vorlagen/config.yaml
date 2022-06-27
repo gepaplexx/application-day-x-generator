@@ -31,6 +31,7 @@ initial-cluster-setup:
 cluster-setup-checkpoint:
   rook-ceph-instance:
     RookCephInstanceEnabled: # [true | false]
+    SlackChannel: # [Slack Url for Alerts ]
 
 cluster-applications:
   cluster-updater:
