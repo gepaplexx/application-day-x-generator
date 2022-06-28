@@ -17,9 +17,9 @@ applications:
       targetRevision: "*"
       helm:
         parameters:
-        - name: "cephcluster.monitoring.alerts.environment"
+        - name: "cephcluster.alerts.environment"
           value: "{{ .env }}"
-        - name: "cephcluster.monitoring.alerts.slackurl"
+        - name: "cephcluster.alerts.slackurl"
           value: "{{ .SlackChannel }}"
     ignoreDifferences:
       - group: ceph.rook.io
