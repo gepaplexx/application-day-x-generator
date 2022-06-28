@@ -32,6 +32,20 @@ receivers:
         api_url: >-
           {{ .SlackChannel }}
         text: "Environment: {{ .env }}.gepaplexx.com \n{{ `{{ range .Alerts }}` }} {{ `{{ .Annotations.message }}` }} \n ---------------------------------------------------------------------------------------------------- \n{{ `{{ end }}` }}"
+  - name: PvcMonitoringAlerts
+    slack_configs:
+      - channel: critical
+        api_url: >-
+        {{ .SlackChannel }}
+        title: PersistentVolumeClaim Alert
+        text: |-
+          Themengebiet: STORAGE
+          Summary: {{`{{ .CommonAnnotations.summary }}`}}
+          Environment: {{ .env }}.gepaplexx.com
+          Alerts:
+          {{`{{- range .Alerts -}}`}}
+          - {{`{{ .Annotations.description }}`}}
+          {{`{{- end -}}`}}
 route:
   group_by:
     - namespace
@@ -52,3 +66,6 @@ route:
     - receiver: APIRemovedInNextEUSReleaseInUse
       match:
         alertname: APIRemovedInNextEUSReleaseInUse
+    - receiver: PvcMonitoringAlerts
+      matchers:
+      - monitoring=pvc
