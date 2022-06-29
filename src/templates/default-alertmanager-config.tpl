@@ -44,7 +44,7 @@ receivers:
           Environment: {{ .env }}.gepaplexx.com
           Alerts:
           {{`{{- range .Alerts -}}`}}
-          - {{`{{ .Annotations.description }}`}}
+          - {{`{{ .Annotations.description }}`}}\n
           {{`{{- end -}}`}}
 route:
   group_by:
