@@ -154,37 +154,24 @@ applications:
         parameters:
           - name: "argocd.route.hostname"
             value: "argocd.apps.{{ .env }}.gepaplexx.com"
-          - name: "argo_workflows.ingress.hostname"
+          - name: "argo_workflows.server.ingress.hosts[0]"
             value: "workflows.apps.{{ .env }}.gepaplexx.com"
+          - name: "argo_workflows.server.ingress.tls[0].hosts[0]"
+            value: "workflows.apps.{{ .env }}.gepaplexx.com"
+          - name: "argo_workflows.server.ingress.tls[0].secretName"
+            value: "workflows.apps.{{ .env }}.gepaplexx.com-tls"
           - name: "argo_rollouts.dashboard.ingress.hosts[0]"
             value: "rollouts.apps.{{ .env }}.gepaplexx.com"
           - name: "argo_rollouts.dashboard.ingress.tls[0].hosts[0]"
             value: "rollouts.apps.{{ .env }}.gepaplexx.com"
           - name: "argo_rollouts.dashboard.ingress.tls[0].secretName"
             value: "rollouts.apps.{{ .env }}.gepaplexx.com"
-          - name: "sealedSecrets.postgresql.password"
+          - name: "sealedSecret.postgresql.password"
             value: "{{ .PostgresqlPassword }}"
-          - name: "sealedSecrets.postgresql.postgresPassword"
+          - name: "sealedSecret.postgresql.postgresPassword"
             value: "{{ .PostgresqlPostgresPassword }}"
-    syncPolicy:
-      automated:
-        prune: true
-        selfHeal: true
-
-  ##################### GEPAPLEXX-CICD-EVENTS ######################
-  gepaplexx-cicd-argo-events:
-    name: gp-cicd-argo-events
-    enabled: true
-    argoProject: gepaplexx
-    destination:
-      namespace: gepaplexx-cicd-tools
-      create: true
-    source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-chart-development/"
-      chart: gp-cicd-argo-events
-      targetRevision: "*"
-      helm:
-        skipCrds: true
+          - name: "sealedSecret.postgresql.username"
+            value: "{{ .PostgresqlUsername }}"
     syncPolicy:
       automated:
         prune: true
