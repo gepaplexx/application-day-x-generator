@@ -60,6 +60,7 @@ route:
     - match:
         severity: critical
       receiver: Critical
+      continue: true
     - receiver: ClusterNotUpgradeable
       match:
         alertname: ClusterNotUpgradeable
