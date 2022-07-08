@@ -2,19 +2,19 @@ env:
 
 initial-cluster-setup:
   google-oauth:
-    GoogleEnabled: # [true | false]
+    GoogleEnabled: # [true | false]
     GoogleClientSecret: 
     GoogleClientId: 
     GoogleRestrictedDomain: 
 
   github-oauth:
-    GitEnabled: # [true | false]
+    GitEnabled: # [true | false]
     GitClientSecret: 
     GitClientId: 
     GitRestrOrgs: 
     
   htpasswd:
-    HtpasswdEnabled: # [true | false]
+    HtpasswdEnabled: # [true | false]
     HtpasswdData: 
   
   cluster-config:
@@ -26,11 +26,11 @@ initial-cluster-setup:
     SolversSecretAccessKey:
 
   console-patches:
-    RouteNameOverride: # [true | false]
+    RouteNameOverride: # [true | false]
 
 cluster-setup-checkpoint:
   rook-ceph-instance:
-    RookCephInstanceEnabled: # [true | false]
+    RookCephInstanceEnabled: # [true | false]
     SlackChannel: # [Slack Url for Alerts ]
 
 cluster-applications:
@@ -38,16 +38,21 @@ cluster-applications:
     SlackChannel: 
 
   cluster-logging:
-    ClusterLoggingEnabled: # [true | false]
+    ClusterLoggingEnabled: # [true | false]
     ClusterLoggingRequestMemory: 
     ClusterLoggingLimitsMemory: 
   
   cluster-monitoring:
-    InfranodesEnabled: # [true | false]
+    InfranodesEnabled: # [true | false]
     SlackChannel: 
     # Path to alertmanager config file, empty => use default
     AlertmanagerConfig: 
 
   gepaplexx-cicd-tools:
-    PostgresqlPassword: 
+    PostgresqlPassword:
     PostgresqlPostgresPassword:
+    PostgresqlUsername:
+    ArgoWorkflowsMetricsEnabled: # [true | false]
+    ArgoWorkflowsServiceMonitorEnabled: # [true | false]
+    ArgoRolloutsMetricsEnabled: # [true | false]
+    ArgoRolloutsServiceMonitorEnabled: # [true | false]

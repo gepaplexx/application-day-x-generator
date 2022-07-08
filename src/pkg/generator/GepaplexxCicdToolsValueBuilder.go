@@ -17,6 +17,7 @@ metadata:
 data:
   password: {{ .PostgresqlPassword }}
   postgres-password: {{ .PostgresqlPostgresPassword }}
+  username: {{ .PostgresqlUsername }}
 type: Opaque
 
 `
@@ -27,19 +28,21 @@ func (gen *GepaplexxCicdToolsValueBuilder) GetValues(config map[string]Value) (m
 	secretVals := make(map[string]string, 3)
 	secretVals["PostgresqlPassword"] = utils.Base64(config["PostgresqlPassword"])
 	secretVals["PostgresqlPostgresPassword"] = utils.Base64(config["PostgresqlPostgresPassword"])
+	secretVals["PostgresqlUsername"] = utils.Base64(config["PostgresqlUsername"])
 
 	secretAsByte, err := utils.ReplaceTemplate(secretVals, GP_CICD_SECRET_TEMPLATE)
 	if err != nil {
 		return nil, err
 	}
 
-	encryptedValues, err := seal.SealValues(secretAsByte, config["env"], "password", "postgres-password")
+	encryptedValues, err := seal.SealValues(secretAsByte, config["env"], "password", "postgres-password", "username")
 	if err != nil {
 		return nil, err
 	}
 
 	values["PostgresqlPassword"] = encryptedValues["password"]
 	values["PostgresqlPostgresPassword"] = encryptedValues["postgres-password"]
+	values["PostgresqlUsername"] = encryptedValues["username"]
 
 	return values, nil
 }

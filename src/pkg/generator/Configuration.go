@@ -54,6 +54,6 @@ var GENERATORS = []Generator{
 	{
 		ValueBuilder: &GepaplexxCicdToolsValueBuilder{},
 		Stage:        ClusterApplications,
-		Name:         "cluster-cicd-tools",
+		Name:         "gepaplexx-cicd-tools",
 	},
 }
