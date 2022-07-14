@@ -4,7 +4,7 @@ project:
 
 applications:
 ####################### CLUSTER-UPDATER #######################
-  clusterUpdater:
+  clusterUpdater:git@github.com:gepaplexx/application-day-x-generator.git
     name: cluster-updater
     enabled: true
     argoProject: gepaplexx
@@ -210,3 +210,27 @@ applications:
       automated:
         prune: true
         selfHeal: true
+  ##################### VAULT ######################
+    vault:
+      name: vault
+      enabled: true
+      argoProject: gepaplexx
+      destination:
+        namespace: gp-vault
+        create: true
+      source:
+        repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
+        targetRevision: "*"
+        chart: gp-hashicorp-vault
+        helm:
+                parameters:
+                  - name: "autoUnseal.creds"
+                    value: {{ .AutoUnsealCreds }}
+                  - name: "metrics.username"
+                    value: {{ .MetricsUsername }}
+                  - name: "metrics.password"
+                    value: {{ .MetricsPassword }}
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
