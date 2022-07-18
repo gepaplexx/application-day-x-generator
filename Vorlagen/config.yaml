@@ -19,7 +19,8 @@ initial-cluster-setup:
   
   cluster-config:
     ArgocdWorkflowrepositoryUsername: 
-    ArgocdWorkflowrepositorySshPrivateKeyBase64: 
+    ArgocdWorkflowrepositorySshPrivateKeyBase64:
+    AlertsSlackUrl:
   
   cluster-issuer:
     SolversAccesKeyId:
