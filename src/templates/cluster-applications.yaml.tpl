@@ -86,6 +86,8 @@ applications:
             value: "{{ .AlertmanagerYaml }}"
           - name: "infranodes.enabled"
             value: "{{ .InfranodesEnabled }}"
+          - name: "cluster"
+            value: "{{ .Env }}"
     syncPolicy:
       automated:
         prune: true
