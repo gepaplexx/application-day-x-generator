@@ -4,7 +4,7 @@ project:
 
 applications:
 ####################### CLUSTER-UPDATER #######################
-  clusterUpdater:git@github.com:gepaplexx/application-day-x-generator.git
+  clusterUpdater:
     name: cluster-updater
     enabled: true
     argoProject: gepaplexx
@@ -223,13 +223,13 @@ applications:
         targetRevision: "*"
         chart: gp-hashicorp-vault
         helm:
-                parameters:
-                  - name: "autoUnseal.creds"
-                    value: {{ .AutoUnsealCreds }}
-                  - name: "metrics.username"
-                    value: {{ .MetricsUsername }}
-                  - name: "metrics.password"
-                    value: {{ .MetricsPassword }}
+          parameters:
+            - name: "autoUnseal.creds"
+              value: {{ .AutoUnsealCreds }}
+            - name: "metrics.username"
+              value: {{ .MetricsUsername }}
+            - name: "metrics.password"
+              value: {{ .MetricsPassword }}
       syncPolicy:
         automated:
           prune: true
