@@ -87,7 +87,7 @@ applications:
           - name: "infranodes.enabled"
             value: "{{ .InfranodesEnabled }}"
           - name: "cluster"
-            value: "{{ .Env }}"
+            value: "{{ .env }}"
     syncPolicy:
       automated:
         prune: true
