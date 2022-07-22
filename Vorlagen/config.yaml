@@ -57,3 +57,8 @@ cluster-applications:
     ArgoWorkflowsServiceMonitorEnabled: # [true | false]
     ArgoRolloutsMetricsEnabled: # [true | false]
     ArgoRolloutsServiceMonitorEnabled: # [true | false]
+
+  vault:
+    AutoUnsealCreds:
+    MetricsUsername:
+    MetricsPassword:
