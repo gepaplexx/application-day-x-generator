@@ -230,6 +230,10 @@ applications:
               value: {{ .MetricsUsername }}
             - name: "metrics.password"
               value: {{ .MetricsPassword }}
+      ignoreDifferences:
+            - jsonPointers:
+                - /webhooks/0/clientConfig/caBundle
+              kind: MutatingWebhookConfiguration
       syncPolicy:
         automated:
           prune: true
