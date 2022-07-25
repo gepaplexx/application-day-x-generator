@@ -231,7 +231,8 @@ applications:
             - name: "metrics.password"
               value: {{ .MetricsPassword }}
       ignoreDifferences:
-            - jsonPointers:
+            - group: admissionregistration.k8s.io
+              jsonPointers:
                 - /webhooks/0/clientConfig/caBundle
               kind: MutatingWebhookConfiguration
       syncPolicy:
