@@ -229,7 +229,7 @@ applications:
             value: "https://thanos-querier-openshift-monitoring.apps.{{ .env }}.gepaplexx.com:443"
     ignoreDifferences:
       - jsonPointers:
-          - /spec/datasources/secureJsonData
+          - /spec/datasources/0/secureJsonData/httpHeaderValue1
         kind: GrafanaDataSource
         group: integreatly.org
     syncPolicy:
