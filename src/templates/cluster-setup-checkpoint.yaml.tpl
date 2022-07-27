@@ -86,3 +86,21 @@ applications:
       automated:
         prune: true
         selfHeal: true
+
+  ####################### Grafana Operator ######################
+  grafana-operator:
+    name: grafana-operator
+    enabled: true
+    argoProject: gepaplexx
+    destination:
+      namespace: grafana-operator-system
+      create: true
+    source:
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
+      targetRevision: "*"
+      chart: "gp-grafana-operator"
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+
