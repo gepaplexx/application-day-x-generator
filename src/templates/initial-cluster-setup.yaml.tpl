@@ -124,12 +124,6 @@ applications:
             value: "{{ .ArgocdWorkflowrepositoryUsername }}"
           - name: "argocd.workflowrepository.sshPrivateKey"
             value: "{{ .ArgocdWorkflowrepositorySshPrivateKey }}"
-          - name: "alerts.slackUrl.kube"
-            value: "{{ .AlertsSlackUrlKube }}"
-          - name: "alerts.slackUrl.apiserver"
-            value: "{{ .AlertsSlackUrlApiServer }}"
-          - name: "alerts.environment"
-            value: "{{ .env }}"
     syncPolicy:
       automated:
         prune: true
