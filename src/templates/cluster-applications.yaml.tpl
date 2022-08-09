@@ -253,10 +253,6 @@ applications:
           parameters:
             - name: "autoUnseal.creds"
               value: {{ .AutoUnsealCreds }}
-            - name: "metrics.username"
-              value: {{ .MetricsUsername }}
-            - name: "metrics.password"
-              value: {{ .MetricsPassword }}
       syncPolicy:
         automated:
           prune: true
