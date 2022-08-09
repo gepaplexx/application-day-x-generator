@@ -253,11 +253,6 @@ applications:
           parameters:
             - name: "autoUnseal.creds"
               value: {{ .AutoUnsealCreds }}
-      ignoreDifferences:
-            - group: admissionregistration.k8s.io
-              jsonPointers:
-                - /webhooks/0/clientConfig/caBundle
-              kind: MutatingWebhookConfiguration
       syncPolicy:
         automated:
           prune: true
