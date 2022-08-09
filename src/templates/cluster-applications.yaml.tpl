@@ -210,6 +210,33 @@ applications:
       automated:
         prune: true
         selfHeal: true
+
+  ####################### Grafana Instance ######################
+  grafana-instance:
+    name: grafana-instance
+    enabled: true
+    argoProject: gepaplexx
+    destination:
+      namespace: grafana-operator-system
+      create: true
+    source:
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
+      targetRevision: "*"
+      chart: "gp-grafana-instance"
+      helm:
+        parameters:
+          - name: "grafana.datasource.prometheus.url"
+            value: "https://thanos-querier-openshift-monitoring.apps.{{ .env }}.gepaplexx.com:443"
+    ignoreDifferences:
+      - jsonPointers:
+          - /spec/datasources/0/secureJsonData/httpHeaderValue1
+        kind: GrafanaDataSource
+        group: integreatly.org
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+
   ##################### VAULT ######################
     vault:
       name: vault
