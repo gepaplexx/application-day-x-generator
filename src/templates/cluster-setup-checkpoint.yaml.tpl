@@ -49,23 +49,6 @@ applications:
         prune: true
         selfHeal: true
 
-  ####################### KASTEN K10 OPERATOR ######################
-  kasten-operator:
-    name: k10-operator
-    enabled: true
-    argoProject: gepaplexx
-    destination:
-      namespace: k10
-      create: true
-    source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-chart-development/"
-      targetRevision: "*"
-      chart: "gp-kasten-operator"
-    syncPolicy:
-      automated:
-        prune: true
-        selfHeal: true
-
   ####################### NFS-STORAGE-PROVISIONER ######################
   nfs-provisioner:
     name: nfs
