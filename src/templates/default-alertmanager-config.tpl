@@ -82,4 +82,4 @@ route:
     # Warning Alerts mit bestimmten Namen aus namespaces mit label openshift.io/cluster-monitoring: "true"
     - receiver: SlackMonitoringInternalApplications
       matchers:
-        - alertname =~ "ClusterNotUpgradeable|APIRemovedInNextEUSReleaseInUse"
+        - alertname =~ "ClusterNotUpgradeable|APIRemovedInNextEUSReleaseInUse|MCDDrainError"
