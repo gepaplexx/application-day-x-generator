@@ -29,7 +29,7 @@ receivers:
           *Summary:* {{`{{ .Annotations.summary }}`}}
           *Description:* {{`{{ .Annotations.description }}`}}
           *Details:*
-            {{`{{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}``}}
+            {{ printf " {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}` "}}
             {{`{{ end }}`}}
           {{`{{ end }}`}}
   - name: SlackMonitoringInternalApplications
@@ -43,7 +43,7 @@ receivers:
           *Summary:* {{`{{ .Annotations.summary }}`}}
           *Description:* {{`{{ .Annotations.description }}`}}
           *Details:*
-            {{`{{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}``}}
+            {{ printf " {{ range .Labels.SortedPairs }} • *{{ .Name }}:* `{{ .Value }}` "}}
             {{`{{ end }}`}}
           {{`{{ end }}`}}
 

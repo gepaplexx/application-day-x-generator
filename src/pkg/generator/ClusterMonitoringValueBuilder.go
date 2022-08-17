@@ -9,7 +9,7 @@ import (
 
 type ClusterMonitoringValueBuilder struct{}
 
-const DEFAULT_ALERTMANAGER_CONFIG string = "./templates/default-alertmanager-config.tpl"
+const DEFAULT_ALERTMANAGER_CONFIG string = "./templates/default-alertmanager-config.yaml.tpl"
 const ALERTMANAGER_SECRET_TEMPLATE string = `
 apiVersion: v1
 data:
