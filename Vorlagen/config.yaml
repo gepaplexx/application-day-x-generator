@@ -60,5 +60,3 @@ cluster-applications:
 
   vault:
     AutoUnsealCreds:
-    MetricsUsername:
-    MetricsPassword:

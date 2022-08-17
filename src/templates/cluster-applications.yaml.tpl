@@ -108,36 +108,6 @@ applications:
         prune: true
         selfHeal: true
 
-  ####################### KASTEN K10 BACKUP ######################
-  kasten-instance:
-    name: k10
-    enabled: true
-    argoProject: gepaplexx
-    destination:
-      namespace: k10
-      create: true
-    source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-chart-development/"
-      targetRevision: "*"
-      chart: "gp-kasten-instance"
-      helm:
-        parameters:
-          - name: "kasten.auth.clusterApiURL"
-            value: "api.{{ .env }}.gepaplexx.com"
-          - name: "kasten.route.host"
-            value: "kasten.apps.{{ .env }}.gepaplexx.com"
-          - name: "kasten.clusterName"
-            value: "{{ .env }}"
-    ignoreDifferences:
-      - jsonPointers:
-          - /spec/auth/openshift/clientSecret
-        kind: K10
-        group: apik10.kasten.io
-    syncPolicy:
-      automated:
-        prune: true
-        selfHeal: true
-
   ##################### GEPAPLEXX-CICD-TOOLS ######################
   gepaplexx-cicd-tools:
     name: gepaplexx-cicd-tools
@@ -253,10 +223,6 @@ applications:
           parameters:
             - name: "autoUnseal.creds"
               value: {{ .AutoUnsealCreds }}
-            - name: "metrics.username"
-              value: {{ .MetricsUsername }}
-            - name: "metrics.password"
-              value: {{ .MetricsPassword }}
       syncPolicy:
         automated:
           prune: true
