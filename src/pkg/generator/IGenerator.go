@@ -43,7 +43,6 @@ func Process(config []byte, generators []Generator) error {
 	initialClusterSetupVals["env"] = conf["env"]
 	clusterSetupCheckpointVals["env"] = conf["env"]
 	clusterApplicationsVals["env"] = conf["env"]
-	alertManagerConfigVals["env"] = conf["env"]
 
 	utils.PrintActionHeader("BUILD VALUE YAML FILES")
 	for _, gen := range generators {
