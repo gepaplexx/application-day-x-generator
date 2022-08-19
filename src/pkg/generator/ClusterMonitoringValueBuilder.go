@@ -9,7 +9,7 @@ import (
 
 type ClusterMonitoringValueBuilder struct{}
 
-const DEFAULT_ALERTMANAGER_CONFIG string = "./templates/default-alertmanager-config.tpl"
+const DEFAULT_ALERTMANAGER_CONFIG string = "./templates/default-alertmanager-config.yaml.tpl"
 const ALERTMANAGER_SECRET_TEMPLATE string = `
 apiVersion: v1
 data:
@@ -37,8 +37,8 @@ func (gen *ClusterMonitoringValueBuilder) GetValues(config map[string]Value) (ma
 	}
 
 	alertmanagerVals := make(map[string]string, 1)
-	alertmanagerVals["env"] = config["env"].String()
-	alertmanagerVals["SlackChannel"] = config["SlackChannel"].String()
+	alertmanagerVals["SlackChannelCritical"] = config["SlackChannelCritical"].String()
+	alertmanagerVals["SlackChannelMonitoringInternalApplications"] = config["SlackChannelMonitoringInternalApplications"].String()
 	alertManagerConfigByte, err := utils.ReplaceTemplate(alertmanagerVals, string(alertmanagerYaml))
 	if err != nil {
 		return nil, err
