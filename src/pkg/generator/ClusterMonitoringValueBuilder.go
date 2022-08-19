@@ -37,8 +37,8 @@ func (gen *ClusterMonitoringValueBuilder) GetValues(config map[string]Value) (ma
 	}
 
 	alertmanagerVals := make(map[string]string, 1)
-	alertmanagerVals["env"] = config["env"].String()
-	alertmanagerVals["SlackChannel"] = config["SlackChannel"].String()
+	alertmanagerVals["SlackChannelCritical"] = config["SlackChannelCritical"].String()
+	alertmanagerVals["SlackChannelMonitoringInternalApplications"] = config["SlackChannelMonitoringInternalApplications"].String()
 	alertManagerConfigByte, err := utils.ReplaceTemplate(alertmanagerVals, string(alertmanagerYaml))
 	if err != nil {
 		return nil, err

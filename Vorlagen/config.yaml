@@ -45,7 +45,8 @@ cluster-applications:
   
   cluster-monitoring:
     InfranodesEnabled: # [true | false]
-    SlackChannel: 
+    SlackChannelCritical: # See Incoming Webhooks for apps in https://api.slack.com/apps
+    SlackChannelMonitoringInternalApplications: # See Incoming Webhooks for apps in https://api.slack.com/apps
     # Path to alertmanager config file, empty => use default
     AlertmanagerConfig: 
 

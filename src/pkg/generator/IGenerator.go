@@ -18,7 +18,6 @@ const (
 	InitialClusterSetup    Stage = "initial-cluster-setup"
 	ClusterSetupCheckpoint Stage = "cluster-setup-checkpoint"
 	ClusterApplications    Stage = "cluster-applications"
-	AlertManagerConfig     Stage = "default-alertmanager-config"
 )
 
 type Generator struct {
@@ -33,7 +32,6 @@ func Process(config []byte, generators []Generator) error {
 	initialClusterSetupVals := make(map[string]utils.Value)
 	clusterSetupCheckpointVals := make(map[string]utils.Value)
 	clusterApplicationsVals := make(map[string]utils.Value)
-	alertManagerConfigVals := make(map[string]utils.Value)
 
 	conf, err := utils.FindValuesFlatMap(config, "env")
 	if err != nil {
@@ -72,10 +70,6 @@ func Process(config []byte, generators []Generator) error {
 			for k, v := range res {
 				clusterApplicationsVals[k] = v
 			}
-		case AlertManagerConfig:
-			for k, v := range res {
-				alertManagerConfigVals[k] = v
-			}
 		}
 	}
 
@@ -95,13 +89,6 @@ func Process(config []byte, generators []Generator) error {
 
 	if len(clusterApplicationsVals) != 0 {
 		err = executeAndWriteTemplate(ClusterApplications, clusterApplicationsVals)
-		if err != nil {
-			return err
-		}
-	}
-
-	if len(clusterApplicationsVals) != 0 {
-		err = executeAndWriteTemplate(AlertManagerConfig, alertManagerConfigVals)
 		if err != nil {
 			return err
 		}
