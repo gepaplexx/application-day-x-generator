@@ -85,12 +85,12 @@ func run(configFile string) {
 }
 
 func main() {
-	debugSealedSecrets := flag.Bool("debugSealedSecrets", false, "Write generated secrets before sealing")
-	clusterConfig := flag.String("clusterConfig", "", "Cluster Configuration")
+	debugSealedSecrets := flag.Bool("debugSealedSecrets", false, "Write generated secrets to 'generated/debug' before sealing.")
+	clusterConfig := flag.String("clusterConfig", "", "Path to cluster configuration.")
 	flag.Parse()
 
 	if *clusterConfig == "" {
-		panic("No config file was specified...")
+		panic("No config file was specified. Use parameter '-clusterConfig <path/to/config.yaml>' to pass a configuration. Use '-h' for more information.")
 	}
 
 	config := utils.GetConfig()
