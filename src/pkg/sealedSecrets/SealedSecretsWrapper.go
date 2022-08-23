@@ -1,7 +1,9 @@
 package sealedSecrets
 
 import (
+	"fmt"
 	utils "gepaplexx/day-x-generator/pkg/util"
+	"io/ioutil"
 	"log"
 	"os/exec"
 
@@ -25,6 +27,11 @@ func SealValues(secret []byte, env utils.Value, keys ...string) (map[string]Valu
 // env		=> Target Cluster, eg. play, steppe, ...
 // ks... 	=> YAML keys wich should be returned
 func seal(data []byte, env utils.Value, keys ...string) (map[string]Value, error) {
+
+	if utils.GetConfig().GetDebugSealedSecrets() {
+		writeSecretToFile(data)
+	}
+
 	cmd := exec.Command("kubeseal", "--cert", "generated/"+env.String()+".crt", "-o", "yaml")
 	cmd.Stdin = bytes.NewReader(data)
 
@@ -66,4 +73,10 @@ func prefix(prefix string, keys ...string) []string {
 		res = append(res, prefix+key)
 	}
 	return res
+}
+
+func writeSecretToFile(data []byte) {
+	secretName, _ := utils.FindValue(data, "metadata.name")
+	filename := fmt.Sprintf("generated/debug/%s.yaml", secretName)
+	ioutil.WriteFile(filename, data, 0644)
 }

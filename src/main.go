@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	gen "gepaplexx/day-x-generator/pkg/generator"
 	sealedSecrets "gepaplexx/day-x-generator/pkg/sealedSecrets"
 	utils "gepaplexx/day-x-generator/pkg/util"
@@ -49,8 +50,12 @@ func run(configFile string) {
 	}
 	//TODO: check if required parameters are set in config or fail with error message!
 
-	// TODO target aus config lesen => default = generated
-	err = os.MkdirAll("generated", os.ModePerm)
+	if utils.GetConfig().GetDebugSealedSecrets() {
+		err = os.MkdirAll("generated/debug/", os.ModePerm)
+	} else {
+		err = os.MkdirAll("generated", os.ModePerm)
+	}
+
 	if err != nil {
 		log.Fatal("cannot create dir: ", err)
 		return
@@ -80,10 +85,16 @@ func run(configFile string) {
 }
 
 func main() {
-	args := os.Args[1:]
-	if len(args) == 0 {
+	debugSealedSecrets := flag.Bool("debugSealedSecrets", false, "Write generated secrets before sealing")
+	clusterConfig := flag.String("clusterConfig", "", "Cluster Configuration")
+	flag.Parse()
+
+	if *clusterConfig == "" {
 		panic("No config file was specified...")
 	}
 
-	run(args[0])
+	config := utils.GetConfig()
+	config.SetDebugSealedSecrets(*debugSealedSecrets)
+
+	run(*clusterConfig)
 }
