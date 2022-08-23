@@ -18,16 +18,16 @@ import (
 
 func GenerateCertificate(env string) (string, string, error) {
 	utils.PrintAction("Creating private key and cert...")
-	_, err := os.Stat(fmt.Sprintf("generated/%s.crt", env))
+	_, err := os.Stat(fmt.Sprintf("%s/%s.crt", utils.TARGET_DIR, env))
 	if err == nil {
 		utils.PrintSuccess()
 		fmt.Println("found existing certificate for env", env)
-		crt, err := ioutil.ReadFile(fmt.Sprintf("generated/%s.crt", env))
+		crt, err := ioutil.ReadFile(fmt.Sprintf("%s/%s.crt", utils.TARGET_DIR, env))
 		if err != nil {
 			return "", "", err
 		}
 
-		key, err := ioutil.ReadFile(fmt.Sprintf("generated/%s.key", env))
+		key, err := ioutil.ReadFile(fmt.Sprintf("%s/%s.key", utils.TARGET_DIR, env))
 		if err != nil {
 			return "", "", err
 		}
@@ -93,7 +93,7 @@ func createKeyAndCert(env string) (string, string, error) {
 		panic(err)
 	}
 
-	certificatePath := fmt.Sprintf("generated/%s.crt", env)
+	certificatePath := fmt.Sprintf("%s/%s.crt", utils.TARGET_DIR, env)
 	caPEM, err := os.Create(certificatePath)
 	if err != nil {
 		panic(err)
@@ -101,7 +101,7 @@ func createKeyAndCert(env string) (string, string, error) {
 
 	pem.Encode(caPEM, buildPemBlock("CERTIFICATE", caBytes))
 
-	caPrivKeyPEM, err := os.Create(fmt.Sprintf("generated/%s.key", env))
+	caPrivKeyPEM, err := os.Create(fmt.Sprintf("%s/%s.key", utils.TARGET_DIR, env))
 	if err != nil {
 		panic(err)
 	}

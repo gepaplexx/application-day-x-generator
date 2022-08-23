@@ -29,7 +29,7 @@ func SealValues(secret []byte, env utils.Value, keys ...string) (map[string]Valu
 // ks... 	=> YAML keys wich should be returned
 func seal(data []byte, env utils.Value, keys ...string) (map[string]Value, error) {
 
-	cmd := exec.Command("kubeseal", "--cert", "generated/"+env.String()+".crt", "-o", "yaml")
+	cmd := exec.Command("kubeseal", "--cert", fmt.Sprintf("%s/%s.crt", utils.TARGET_DIR, env.String()), "-o", "yaml")
 	cmd.Stdin = bytes.NewReader(data)
 
 	var out bytes.Buffer
@@ -83,7 +83,7 @@ func writeSecretAndValuesToFile(secret []byte, keys ...string) {
 }
 
 func writeSecretToFile(secret []byte, secretName any) {
-	filenameSecret := fmt.Sprintf("generated/debug/%s.yaml", secretName)
+	filenameSecret := fmt.Sprintf("%s/%s.yaml", utils.DEBUG_DIR, secretName)
 	err := ioutil.WriteFile(filenameSecret, secret, 0644)
 	if err != nil {
 		log.Printf("WARNING: Failed to write %s.", secretName)
@@ -93,7 +93,7 @@ func writeSecretToFile(secret []byte, secretName any) {
 func writeValuesToFile(secret []byte, secretName any, keys ...string) {
 	prefixed := prefix("data:", keys...)
 	values, _ := utils.FindValues(secret, prefixed...)
-	filenameValues := fmt.Sprintf("generated/debug/%s-values.txt", secretName)
+	filenameValues := fmt.Sprintf("%s/%s-values.txt", utils.DEBUG_DIR, secretName)
 	fileValues, err := os.Create(filenameValues)
 	if err != nil {
 		log.Printf("WARNING: Failed to write %s.", filenameValues)

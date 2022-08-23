@@ -51,9 +51,9 @@ func run(configFile string) {
 	//TODO: check if required parameters are set in config or fail with error message!
 
 	if utils.GetConfig().GetDebugSealedSecrets() {
-		err = os.MkdirAll("generated/debug/", os.ModePerm)
+		err = os.MkdirAll(utils.DEBUG_DIR, os.ModePerm)
 	} else {
-		err = os.MkdirAll("generated", os.ModePerm)
+		err = os.MkdirAll(utils.TARGET_DIR, os.ModePerm)
 	}
 
 	if err != nil {
@@ -85,7 +85,7 @@ func run(configFile string) {
 }
 
 func main() {
-	debugSealedSecrets := flag.Bool("debugSealedSecrets", false, "Write generated secrets to 'generated/debug' before sealing.")
+	debugSealedSecrets := flag.Bool("debugSealedSecrets", false, "Write generated secrets to DEBUG_DIR before sealing.")
 	clusterConfig := flag.String("clusterConfig", "", "Path to cluster configuration.")
 	flag.Parse()
 
