@@ -50,7 +50,7 @@ func seal(data []byte, env utils.Value, keys ...string) (map[string]Value, error
 	}
 
 	if utils.GetConfig().GetDebugSealedSecrets() {
-		writeSecretToFile(data, keys...)
+		writeSecretAndValuesToFile(data, keys...)
 	}
 
 	return res, nil
@@ -76,20 +76,28 @@ func prefix(prefix string, keys ...string) []string {
 	return res
 }
 
-func writeSecretToFile(secret []byte, keys ...string) {
+func writeSecretAndValuesToFile(secret []byte, keys ...string) {
 	secretName, _ := utils.FindValue(secret, "metadata.name")
+	writeSecretToFile(secret, secretName)
+	writeValuesToFile(secret, secretName, keys...)
+}
+
+func writeSecretToFile(secret []byte, secretName any) {
 	filenameSecret := fmt.Sprintf("generated/debug/%s.yaml", secretName)
 	err := ioutil.WriteFile(filenameSecret, secret, 0644)
 	if err != nil {
 		log.Printf("WARNING: Failed to write %s.", secretName)
 	}
+}
 
+func writeValuesToFile(secret []byte, secretName any, keys ...string) {
 	prefixed := prefix("data:", keys...)
 	values, _ := utils.FindValues(secret, prefixed...)
 	filenameValues := fmt.Sprintf("generated/debug/%s-values.txt", secretName)
 	fileValues, err := os.Create(filenameValues)
 	if err != nil {
 		log.Printf("WARNING: Failed to write %s.", filenameValues)
+		return
 	}
 	defer fileValues.Close()
 
@@ -97,6 +105,7 @@ func writeSecretToFile(secret []byte, keys ...string) {
 		decoded, err := utils.Base64Decode(val)
 		if err != nil {
 			log.Printf("WARNING: Failed to decode string %s.", val.String())
+			continue
 		}
 
 		fmt.Fprintf(fileValues, "%s:\n", key)
