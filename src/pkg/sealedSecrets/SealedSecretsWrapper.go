@@ -6,10 +6,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
-
-	//"os"
 	"os/exec"
-	//"strings"
 
 	vault "github.com/sosedoff/ansible-vault-go"
 
