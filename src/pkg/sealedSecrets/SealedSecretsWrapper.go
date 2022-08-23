@@ -5,7 +5,11 @@ import (
 	utils "gepaplexx/day-x-generator/pkg/util"
 	"io/ioutil"
 	"log"
+	"os"
+
+	//"os"
 	"os/exec"
+	//"strings"
 
 	vault "github.com/sosedoff/ansible-vault-go"
 
@@ -28,10 +32,6 @@ func SealValues(secret []byte, env utils.Value, keys ...string) (map[string]Valu
 // ks... 	=> YAML keys wich should be returned
 func seal(data []byte, env utils.Value, keys ...string) (map[string]Value, error) {
 
-	if utils.GetConfig().GetDebugSealedSecrets() {
-		writeSecretToFile(data)
-	}
-
 	cmd := exec.Command("kubeseal", "--cert", "generated/"+env.String()+".crt", "-o", "yaml")
 	cmd.Stdin = bytes.NewReader(data)
 
@@ -50,6 +50,10 @@ func seal(data []byte, env utils.Value, keys ...string) (map[string]Value, error
 	res, err := utils.FindValues(out.Bytes(), prefixed...)
 	if err != nil {
 		return nil, err
+	}
+
+	if utils.GetConfig().GetDebugSealedSecrets() {
+		writeSecretToFile(data, keys...)
 	}
 
 	return res, nil
@@ -75,8 +79,31 @@ func prefix(prefix string, keys ...string) []string {
 	return res
 }
 
-func writeSecretToFile(data []byte) {
-	secretName, _ := utils.FindValue(data, "metadata.name")
-	filename := fmt.Sprintf("generated/debug/%s.yaml", secretName)
-	ioutil.WriteFile(filename, data, 0644)
+func writeSecretToFile(secret []byte, keys ...string) {
+	secretName, _ := utils.FindValue(secret, "metadata.name")
+	filenameSecret := fmt.Sprintf("generated/debug/%s.yaml", secretName)
+	err := ioutil.WriteFile(filenameSecret, secret, 0644)
+	if err != nil {
+		log.Printf("WARNING: Failed to write %s.", secretName)
+	}
+
+	prefixed := prefix("data:", keys...)
+	values, _ := utils.FindValues(secret, prefixed...)
+	filenameValues := fmt.Sprintf("generated/debug/%s-values.txt", secretName)
+	fileValues, err := os.Create(filenameValues)
+	if err != nil {
+		log.Printf("WARNING: Failed to write %s.", filenameValues)
+	}
+	defer fileValues.Close()
+
+	for key, val := range values {
+		decoded, err := utils.Base64Decode(val)
+		if err != nil {
+			log.Printf("WARNING: Failed to decode string %s.", val.String())
+		}
+
+		fmt.Fprintf(fileValues, "%s:\n", key)
+		fmt.Fprintf(fileValues, "%s\n", decoded)
+		fmt.Fprintf(fileValues, "==== END ======\n")
+	}
 }

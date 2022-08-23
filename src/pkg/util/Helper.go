@@ -19,6 +19,15 @@ func Base64(val Value) string {
 	return b64.StdEncoding.EncodeToString([]byte(val.String()))
 }
 
+func Base64Decode(val Value) (string, error) {
+	res, err := b64.StdEncoding.DecodeString(val.String())
+	if err != nil {
+		return "", err
+	}
+
+	return string(res), nil
+}
+
 func ReplaceTemplate(config map[string]string, templ string) ([]byte, error) {
 	secretTemplate, err := template.New("secret").Parse(templ)
 	if err != nil {
