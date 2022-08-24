@@ -1,8 +1,10 @@
 package sealedSecrets
 
 import (
+	"fmt"
 	utils "gepaplexx/day-x-generator/pkg/util"
 	"log"
+	"os"
 	"os/exec"
 
 	vault "github.com/sosedoff/ansible-vault-go"
@@ -25,7 +27,9 @@ func SealValues(secret []byte, env utils.Value, keys ...string) (map[string]Valu
 // env		=> Target Cluster, eg. play, steppe, ...
 // ks... 	=> YAML keys wich should be returned
 func seal(data []byte, env utils.Value, keys ...string) (map[string]Value, error) {
-	cmd := exec.Command("kubeseal", "--cert", "generated/"+env.String()+".crt", "-o", "yaml")
+	writeSecretAndValuesToFile(data, keys...)
+
+	cmd := exec.Command("kubeseal", "--cert", fmt.Sprintf("%s/%s.crt", utils.TARGET_DIR, env.String()), "-o", "yaml")
 	cmd.Stdin = bytes.NewReader(data)
 
 	var out bytes.Buffer
@@ -66,4 +70,42 @@ func prefix(prefix string, keys ...string) []string {
 		res = append(res, prefix+key)
 	}
 	return res
+}
+
+func writeSecretAndValuesToFile(secret []byte, keys ...string) {
+	secretName, _ := utils.FindValue(secret, "metadata.name")
+	writeSecretToFile(secret, secretName)
+	writeValuesToFile(secret, secretName, keys...)
+}
+
+func writeSecretToFile(secret []byte, secretName any) {
+	filenameSecret := fmt.Sprintf("%s/%s.yaml", utils.DEBUG_DIR, secretName)
+	err := os.WriteFile(filenameSecret, secret, 0644)
+	if err != nil {
+		log.Printf("WARNING: Failed to write %s.", secretName)
+	}
+}
+
+func writeValuesToFile(secret []byte, secretName any, keys ...string) {
+	prefixed := prefix("data:", keys...)
+	values, _ := utils.FindValues(secret, prefixed...)
+	filenameValues := fmt.Sprintf("%s/%s-values.txt", utils.DEBUG_DIR, secretName)
+	fileValues, err := os.Create(filenameValues)
+	if err != nil {
+		log.Printf("WARNING: Failed to write %s.", filenameValues)
+		return
+	}
+	defer fileValues.Close()
+
+	for key, val := range values {
+		decoded, err := utils.Base64Decode(val)
+		if err != nil {
+			log.Printf("WARNING: Failed to decode string %s.", val.String())
+			continue
+		}
+
+		fmt.Fprintf(fileValues, "%s:\n", key)
+		fmt.Fprintf(fileValues, "%s\n", decoded)
+		fmt.Fprintf(fileValues, "==== END ======\n")
+	}
 }

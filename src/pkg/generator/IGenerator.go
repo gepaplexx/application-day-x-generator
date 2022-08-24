@@ -98,7 +98,7 @@ func Process(config []byte, generators []Generator) error {
 }
 
 func executeAndWriteTemplate(stage Stage, values map[string]utils.Value) error {
-	dest, err := createFile(fmt.Sprintf("generated/%s-%s.yaml", values["env"], stage))
+	dest, err := createFile(fmt.Sprintf("%s/%s-%s.yaml", utils.TARGET_DIR, values["env"], stage))
 	if err != nil {
 		return err
 	}

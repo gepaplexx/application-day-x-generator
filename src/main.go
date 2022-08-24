@@ -2,16 +2,14 @@ package main
 
 import (
 	gen "gepaplexx/day-x-generator/pkg/generator"
-	sealedSecrets "gepaplexx/day-x-generator/pkg/sealedSecrets"
+	"gepaplexx/day-x-generator/pkg/sealedSecrets"
 	utils "gepaplexx/day-x-generator/pkg/util"
 	"log"
 	"os"
-
-	"io/ioutil"
 )
 
 func readYamlConfiguration(path string) ([]byte, error) {
-	config, err := ioutil.ReadFile(path)
+	config, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
@@ -49,8 +47,13 @@ func run(configFile string) {
 	}
 	//TODO: check if required parameters are set in config or fail with error message!
 
-	// TODO target aus config lesen => default = generated
-	err = os.MkdirAll("generated", os.ModePerm)
+	err = os.MkdirAll(utils.TARGET_DIR, os.ModePerm)
+	if err != nil {
+		log.Fatal("cannot create dir: ", err)
+		return
+	}
+
+	err = os.MkdirAll(utils.DEBUG_DIR, os.ModePerm)
 	if err != nil {
 		log.Fatal("cannot create dir: ", err)
 		return

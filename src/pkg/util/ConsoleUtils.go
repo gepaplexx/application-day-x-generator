@@ -13,8 +13,6 @@ import (
 	cursor "github.com/atomicgo/cursor"
 )
 
-const LINELENGTH int = 80
-
 var FMT_GREENBOLD *formatter.OutputFormatterStyle = formatter.NewOutputFormatterStyle(color.GREEN, color.NULL, []string{color.BOLD})
 var FMT_REDBOLD *formatter.OutputFormatterStyle = formatter.NewOutputFormatterStyle(color.RED, color.NULL, []string{color.BOLD})
 var FMT_CYANBOLD *formatter.OutputFormatterStyle = formatter.NewOutputFormatterStyle(color.CYAN, color.NULL, []string{color.BOLD})
