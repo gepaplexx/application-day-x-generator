@@ -7,7 +7,6 @@ import (
 	"crypto/x509/pkix"
 	"encoding/pem"
 	"fmt"
-	"io/ioutil"
 	"math/big"
 	"time"
 
@@ -18,16 +17,17 @@ import (
 
 func GenerateCertificate(env string) (string, string, error) {
 	utils.PrintAction("Creating private key and cert...")
-	_, err := os.Stat(fmt.Sprintf("%s/%s.crt", utils.TARGET_DIR, env))
+	existingCertificate := fmt.Sprintf("%s/%s.crt", utils.TARGET_DIR, env)
+	_, err := os.Stat(existingCertificate)
 	if err == nil {
 		utils.PrintSuccess()
 		fmt.Println("found existing certificate for env", env)
-		crt, err := ioutil.ReadFile(fmt.Sprintf("%s/%s.crt", utils.TARGET_DIR, env))
+		crt, err := os.ReadFile(existingCertificate)
 		if err != nil {
 			return "", "", err
 		}
 
-		key, err := ioutil.ReadFile(fmt.Sprintf("%s/%s.key", utils.TARGET_DIR, env))
+		key, err := os.ReadFile(fmt.Sprintf("%s/%s.key", utils.TARGET_DIR, env))
 		if err != nil {
 			return "", "", err
 		}

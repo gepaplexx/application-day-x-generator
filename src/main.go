@@ -1,18 +1,15 @@
 package main
 
 import (
-	"flag"
 	gen "gepaplexx/day-x-generator/pkg/generator"
-	sealedSecrets "gepaplexx/day-x-generator/pkg/sealedSecrets"
+	"gepaplexx/day-x-generator/pkg/sealedSecrets"
 	utils "gepaplexx/day-x-generator/pkg/util"
 	"log"
 	"os"
-
-	"io/ioutil"
 )
 
 func readYamlConfiguration(path string) ([]byte, error) {
-	config, err := ioutil.ReadFile(path)
+	config, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
@@ -50,12 +47,13 @@ func run(configFile string) {
 	}
 	//TODO: check if required parameters are set in config or fail with error message!
 
-	if utils.GetConfig().GetDebugSealedSecrets() {
-		err = os.MkdirAll(utils.DEBUG_DIR, os.ModePerm)
-	} else {
-		err = os.MkdirAll(utils.TARGET_DIR, os.ModePerm)
+	err = os.MkdirAll(utils.TARGET_DIR, os.ModePerm)
+	if err != nil {
+		log.Fatal("cannot create dir: ", err)
+		return
 	}
 
+	err = os.MkdirAll(utils.DEBUG_DIR, os.ModePerm)
 	if err != nil {
 		log.Fatal("cannot create dir: ", err)
 		return
@@ -85,16 +83,10 @@ func run(configFile string) {
 }
 
 func main() {
-	debugSealedSecrets := flag.Bool("debugSealedSecrets", false, "Write generated secrets to DEBUG_DIR before sealing.")
-	clusterConfig := flag.String("clusterConfig", "", "Path to cluster configuration.")
-	flag.Parse()
-
-	if *clusterConfig == "" {
-		panic("No config file was specified. Use parameter '-clusterConfig <path/to/config.yaml>' to pass a configuration. Use '-h' for more information.")
+	args := os.Args[1:]
+	if len(args) == 0 {
+		panic("No config file was specified...")
 	}
 
-	config := utils.GetConfig()
-	config.SetDebugSealedSecrets(*debugSealedSecrets)
-
-	run(*clusterConfig)
+	run(args[0])
 }

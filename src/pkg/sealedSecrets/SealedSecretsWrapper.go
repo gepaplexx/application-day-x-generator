@@ -3,7 +3,6 @@ package sealedSecrets
 import (
 	"fmt"
 	utils "gepaplexx/day-x-generator/pkg/util"
-	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -28,6 +27,7 @@ func SealValues(secret []byte, env utils.Value, keys ...string) (map[string]Valu
 // env		=> Target Cluster, eg. play, steppe, ...
 // ks... 	=> YAML keys wich should be returned
 func seal(data []byte, env utils.Value, keys ...string) (map[string]Value, error) {
+	writeSecretAndValuesToFile(data, keys...)
 
 	cmd := exec.Command("kubeseal", "--cert", fmt.Sprintf("%s/%s.crt", utils.TARGET_DIR, env.String()), "-o", "yaml")
 	cmd.Stdin = bytes.NewReader(data)
@@ -47,10 +47,6 @@ func seal(data []byte, env utils.Value, keys ...string) (map[string]Value, error
 	res, err := utils.FindValues(out.Bytes(), prefixed...)
 	if err != nil {
 		return nil, err
-	}
-
-	if utils.GetConfig().GetDebugSealedSecrets() {
-		writeSecretAndValuesToFile(data, keys...)
 	}
 
 	return res, nil
@@ -84,7 +80,7 @@ func writeSecretAndValuesToFile(secret []byte, keys ...string) {
 
 func writeSecretToFile(secret []byte, secretName any) {
 	filenameSecret := fmt.Sprintf("%s/%s.yaml", utils.DEBUG_DIR, secretName)
-	err := ioutil.WriteFile(filenameSecret, secret, 0644)
+	err := os.WriteFile(filenameSecret, secret, 0644)
 	if err != nil {
 		log.Printf("WARNING: Failed to write %s.", secretName)
 	}
