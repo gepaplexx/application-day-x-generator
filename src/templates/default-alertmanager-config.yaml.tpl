@@ -17,7 +17,7 @@ inhibit_rules:
       severity: info
   # this rule inhibits ALL alerts during a clusterupdate,
   # except the MCDDrainError that can indicate a blocked update
-  - source_matchers: [alertname = cluster-is-updating]
+  - source_matchers: [alertname = ClusterIsUpdating]
     target_matchers: [alertname != MCDDrainError]
 receivers:
   - name: Default
