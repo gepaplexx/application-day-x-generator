@@ -81,3 +81,29 @@ applications:
         prune: true
         selfHeal: true
 
+  ##################### CONSOLE-PATCHES ######################
+  keycloak-instance:
+    name: keycloak-instance
+    enabled: true
+    argoProject: gepaplexx
+    destination:
+      namespace: gp-sso
+      create: false
+    source:
+      repoURL: "https://gepaplexx.github.io/gp-helm-chart-development/"
+      chart: gp-keycloak-instance
+      targetRevision: "*"
+      helm:
+        parameters:
+        - name: "ingress.hostname"
+          value: "sso.apps.{{ .env }}.gepaplexx.com"
+        - name: "postgresql.auth.username"
+          value: {{ .KeycloakDbUsername }}
+        - name: "postgresql.auth.    password"
+          value: {{ .KeycloakDbPassword }}
+        - name: ""
+          value: {{ .KeycloakOcpClientsecret }}
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
