@@ -37,6 +37,11 @@ var GENERATORS = []Generator{
 		Name:         "rook-ceph-instance",
 	},
 	{
+		ValueBuilder: &KeycloakInstanceValueBuilder{},
+		Stage:        ClusterSetupCheckpoint,
+		Name:         "keycloak-instance",
+	},
+	{
 		ValueBuilder: &ClusterLoggingValueBuilder{},
 		Stage:        ClusterApplications,
 		Name:         "cluster-logging",

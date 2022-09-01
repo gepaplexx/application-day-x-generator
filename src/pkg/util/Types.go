@@ -18,7 +18,7 @@ func (v Value) String() string {
 		return fmt.Sprintf("%f", v.Val)
 	}
 
-	return "not valid"
+	return NOT_VALID
 }
 
 func (v Value) Equal(other any) bool {
