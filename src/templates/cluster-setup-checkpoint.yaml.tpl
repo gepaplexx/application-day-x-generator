@@ -97,9 +97,9 @@ applications:
         parameters:
         - name: "ingress.hostname"
           value: "sso.apps.{{ .env }}.gepaplexx.com"
-        - name: "Values.persistence.auth.password"
+        - name: "persistence.auth.password"
           value: {{ .KeycloakDbPassword }}
-        - name: ".Values.provider.openshift.clientSecret"
+        - name: "provider.openshift.clientSecret"
           value: {{ .KeycloakOcpClientsecret }}
     syncPolicy:
       automated:
