@@ -12,7 +12,7 @@ applications:
       namespace: gp-infrastructure
       create: true
     source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-chart-development/"
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
       chart: gp-cluster-update-checker
       targetRevision: "*"
       helm:
@@ -37,7 +37,7 @@ applications:
       create: false
     argoProject: gepaplexx
     source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-chart-development/"
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
       chart: gp-cluster-logging-instance
       targetRevision: "*"
       helm:
@@ -60,7 +60,7 @@ applications:
       create: false
     argoProject: gepaplexx
     source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-chart-development/"
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
       chart: gp-cluster-logging-eventrouter
       targetRevision: "*"
     syncPolicy:
@@ -77,7 +77,7 @@ applications:
       namespace: openshift-monitoring
       create: true
     source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-chart-development/"
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
       chart: gp-cluster-monitoring-config
       targetRevision: "*"
       helm:
@@ -100,7 +100,7 @@ applications:
       namespace: gp-infrastructure
       create: true
     source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-chart-development/"
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
       chart: gp-ocp-internal-registry
       targetRevision: "*"
     syncPolicy:
@@ -117,7 +117,7 @@ applications:
       namespace: gepaplexx-cicd-tools
       create: true
     source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-chart-development/"
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
       chart: gp-cicd-tools
       targetRevision: "*"
       helm:
@@ -156,7 +156,7 @@ applications:
       namespace: gepaplexx-cicd-eventbus
       create: true
     source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-chart-development/"
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
       chart: gepaplexx-cicd-eventbus
       targetRevision: "*"
     syncPolicy:

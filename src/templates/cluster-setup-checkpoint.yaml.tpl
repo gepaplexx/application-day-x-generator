@@ -12,7 +12,7 @@ applications:
       namespace: rook-ceph
       create: false
     source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-chart-development/"
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
       chart: gp-storage-cephcluster
       targetRevision: "*"
     ignoreDifferences:
@@ -35,7 +35,7 @@ applications:
       namespace: openshift-logging
       create: false
     source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-chart-development/"
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
       chart: gp-cluster-logging-operator
       targetRevision: "*"
     syncPolicy:
@@ -52,7 +52,7 @@ applications:
       namespace: nfs-storage-provisioner
       create: true
     source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-chart-development/"
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
       targetRevision: "*"
       chart: "gp-nfs-provisioner"
       helm:
@@ -81,7 +81,7 @@ applications:
         prune: true
         selfHeal: true
 
-  ##################### CONSOLE-PATCHES ######################
+  ##################### KEYCLOAK-INSTANCE ######################
   keycloak-instance:
     name: keycloak-instance
     enabled: true
@@ -90,18 +90,16 @@ applications:
       namespace: gp-sso
       create: false
     source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-chart-development/"
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
       chart: gp-keycloak-instance
       targetRevision: "*"
       helm:
         parameters:
         - name: "ingress.hostname"
           value: "sso.apps.{{ .env }}.gepaplexx.com"
-        - name: "postgresql.auth.username"
-          value: {{ .KeycloakDbUsername }}
-        - name: "postgresql.auth.    password"
+        - name: "Values.persistence.auth.password"
           value: {{ .KeycloakDbPassword }}
-        - name: ""
+        - name: ".Values.provider.openshift.clientSecret"
           value: {{ .KeycloakOcpClientsecret }}
     syncPolicy:
       automated:
