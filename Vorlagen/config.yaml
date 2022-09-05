@@ -1,4 +1,4 @@
-env: 
+env: play
 
 initial-cluster-setup:
   google-oauth:
@@ -51,13 +51,16 @@ cluster-applications:
     AlertmanagerConfig: 
 
   gepaplexx-cicd-tools:
-    PostgresqlPassword:
-    PostgresqlPostgresPassword:
-    PostgresqlUsername:
-    ArgoWorkflowsMetricsEnabled: # [true | false]
-    ArgoWorkflowsServiceMonitorEnabled: # [true | false]
-    ArgoRolloutsMetricsEnabled: # [true | false]
-    ArgoRolloutsServiceMonitorEnabled: # [true | false]
+    PostgresqlPassword: ""
+    PostgresqlPostgresPassword: ""
+    PostgresqlUsername: ""
+    ArgoWorkflowsMetricsEnabled: true # [true | false]
+    ArgoWorkflowsServiceMonitorEnabled: false # [true | false]
+    ArgoWorkflowsClusterScopedGroupEnabled: true # [true | false]
+    ArgoWorkflowsSsoIssuer: "https://sso.apps.${ENV}.gepaplexx.com/realms/${REALM}" # Beispiel, nicht vergessen zu ersetzen!
+    ArgoWorkflowsSsoClientSecret: ""
+    ArgoRolloutsMetricsEnabled: true # [true | false]
+    ArgoRolloutsServiceMonitorEnabled: true # [true | false]
 
   vault:
     AutoUnsealCreds:
