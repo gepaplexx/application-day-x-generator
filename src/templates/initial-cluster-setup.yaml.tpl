@@ -52,7 +52,7 @@ applications:
       namespace: gp-infrastructure
       create: true
     source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-chart-development/"
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
       chart: gp-identity-provider
       targetRevision: "*"
       helm:
@@ -97,7 +97,7 @@ applications:
       namespace: gp-infrastructure
       create: true
     source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-chart-development/"
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
       chart: gp-oauth-group-sync
       targetRevision: "*"
     syncPolicy:
@@ -115,7 +115,7 @@ applications:
       namespace: gp-infrastructure
       create: true
     source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-chart-development/"
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
       chart: gp-cluster-config
       targetRevision: "*"
       helm:
@@ -138,7 +138,7 @@ applications:
       namespace: rook-ceph
       create: false
     source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-chart-development/"
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
       chart: gp-rook-ceph-operator
       targetRevision: "*"
     syncPolicy:
@@ -155,7 +155,7 @@ applications:
       namespace: gp-infrastructure
       create: true
     source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-chart-development/"
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
       chart: gp-pull-through-cache
       targetRevision: "*"
     syncPolicy:
@@ -189,7 +189,7 @@ applications:
       namespace: gp-infrastructure
       create: true
     source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-chart-development/"
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
       chart: gp-certificates-patches
       targetRevision: "*"
       helm:
@@ -210,7 +210,7 @@ applications:
       namespace: cert-manager
       create: true
     source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-chart-development/"
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
       chart: gp-cluster-issuer
       targetRevision: "*"
       helm:
@@ -243,7 +243,7 @@ applications:
       namespace: gp-infrastructure
       create: true
     source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-chart-development/"
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
       chart: gp-console-patches
       targetRevision: "*"
       helm:
@@ -252,6 +252,23 @@ applications:
             value: "{{ .RouteNameOverride }}"
           - name: "route.hostname"
             value: "apps.{{ .env }}.gepaplexx.com"
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+
+##################### KEYCLOAK-OPERATOR ######################
+  keycloak-operator:
+    name: keycloak-operator
+    enabled: true
+    argoProject: gepaplexx
+    destination:
+      namespace: gp-sso
+      create: true
+    source:
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
+      chart: gp-keycloak-operator
+      targetRevision: "*"
     syncPolicy:
       automated:
         prune: true
