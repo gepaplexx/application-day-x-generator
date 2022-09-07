@@ -89,6 +89,11 @@ applications:
     destination:
       namespace: gp-sso
       create: false
+    ignoreDifferences:
+      - jsonPointers:
+          - /secret
+        kind: OAuthClient
+        group: oauth.openshift.io
     source:
       repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
       chart: gp-keycloak-instance
