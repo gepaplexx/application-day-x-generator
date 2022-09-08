@@ -1,4 +1,4 @@
-env: play
+env:
 
 initial-cluster-setup:
   google-oauth:
@@ -63,6 +63,7 @@ cluster-applications:
     ArgoWorkflowsClusterScopedGroupEnabled: true # [true | false]
     ArgoWorkflowsSsoIssuer: "https://sso.apps.${ENV}.gepaplexx.com/realms/${REALM}" # Beispiel, nicht vergessen zu ersetzen!
     ArgoWorkflowsSsoClientSecret: ""
+    ArgoWorkflowsMinioSecretkey: ""
     ArgoRolloutsMetricsEnabled: true # [true | false]
     ArgoRolloutsServiceMonitorEnabled: true # [true | false]
 
