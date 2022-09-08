@@ -138,8 +138,6 @@ applications:
             value: "{{ .ArgoWorkflowsClusterScopedGroupEnabled }}"
           - name: "argo_workflows.server.sso.clientSecret.secret"
             value: "{{ .ArgoWorkflowsSsoClientSecret }}"
-          - name: "argo_workflows.archive.accesskey"
-            value: "{{ .ArgoWorkflowsMinioAccesskey }}"
           - name: "argo_workflows.archive.secretkey"
             value: "{{ .ArgoWorkflowsMinioSecretkey }}"
           - name: "argo_rollouts.dashboard.ingress.hosts[0]"

@@ -78,7 +78,7 @@ func (gen *GepaplexxCicdToolsValueBuilder) GetValues(config map[string]Value) (m
 	if err != nil {
 		return nil, err
 	}
-	encryptedValuesMinio, err := seal.SealValues(secretAsByteMinio, config["env"], "accesskey", "secretkey")
+	encryptedValuesMinio, err := seal.SealValues(secretAsByteMinio, config["env"], "secretkey")
 	if err != nil {
 		return nil, err
 	}
