@@ -72,7 +72,7 @@ func (gen *GepaplexxCicdToolsValueBuilder) GetValues(config map[string]Value) (m
 		return nil, err
 	}
 
-	secretValsMinio := make(map[string]string, 2)
+	secretValsMinio := make(map[string]string, 1)
 	secretValsMinio["ArgoWorkflowsMinioSecretkey"] = utils.Base64(config["ArgoWorkflowsMinioSecretkey"])
 	secretAsByteMinio, err := utils.ReplaceTemplate(secretValsMinio, GP_CICD_MINIO_SECRET_TEMPLATE)
 	if err != nil {
