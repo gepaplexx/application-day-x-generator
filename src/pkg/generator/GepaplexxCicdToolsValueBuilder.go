@@ -33,6 +33,17 @@ data:
 
 `
 
+const GP_CICD_MINIO_SECRET_TEMPLATE string = `
+apiVersion: v1
+kind: Secret
+metadata: 
+  name: minio-artifact-repository
+  namespace: gepaplexx-cicd-tools
+data:
+  secretkey: {{ .ArgoWorkflowsMinioSecretkey }}
+
+`
+
 func (gen *GepaplexxCicdToolsValueBuilder) GetValues(config map[string]Value) (map[string]Value, error) {
 	values := make(map[string]Value)
 
@@ -61,12 +72,24 @@ func (gen *GepaplexxCicdToolsValueBuilder) GetValues(config map[string]Value) (m
 		return nil, err
 	}
 
+	secretValsMinio := make(map[string]string, 2)
+	secretValsMinio["ArgoWorkflowsMinioSecretkey"] = utils.Base64(config["ArgoWorkflowsMinioSecretkey"])
+	secretAsByteMinio, err := utils.ReplaceTemplate(secretValsMinio, GP_CICD_MINIO_SECRET_TEMPLATE)
+	if err != nil {
+		return nil, err
+	}
+	encryptedValuesMinio, err := seal.SealValues(secretAsByteMinio, config["env"], "accesskey", "secretkey")
+	if err != nil {
+		return nil, err
+	}
+
 	values["PostgresqlPassword"] = encryptedValuesDb["password"]
 	values["PostgresqlPostgresPassword"] = encryptedValuesDb["postgres-password"]
 	values["PostgresqlUsername"] = encryptedValuesDb["username"]
 	values["ArgoWorkflowsSsoClientSecret"] = encryptedValuesSso["client-secret"]
 	values["ArgoWorkflowsSsoIssuer"] = config["ArgoWorkflowsSsoIssuer"]
 	values["ArgoWorkflowsClusterScopedGroupEnabled"] = config["ArgoWorkflowsClusterScopedGroupEnabled"]
+	values["ArgoWorkflowsMinioSecretkey"] = encryptedValuesMinio["secretkey"]
 
 	return values, nil
 }
