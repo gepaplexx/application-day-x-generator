@@ -92,6 +92,10 @@ applications:
           value: {{ .LdapBindDn }}
         - name: "ldap.ldapUrl"
           value: {{ .LdapUrl }}
+        - name: "ldap.groupsQuery"
+          value: {{ .LdapGroupsQuery }}
+        - name: "ldap.usersQuery"
+          value: {{ .LdapUsersQuery }}
         {{- end}}
     syncPolicy:
       automated:
