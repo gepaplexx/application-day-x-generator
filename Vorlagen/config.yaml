@@ -64,8 +64,6 @@ cluster-applications:
     ArgoWorkflowsSsoIssuer: "https://sso.apps.${ENV}.gepaplexx.com/realms/${REALM}" # Beispiel, nicht vergessen zu ersetzen!
     ArgoWorkflowsSsoClientSecret: ""
     ArgoWorkflowsMinioSecretkey: ""
-    ArgoRolloutsMetricsEnabled: true # [true | false]
-    ArgoRolloutsServiceMonitorEnabled: true # [true | false]
 
   vault:
     AutoUnsealCreds:
