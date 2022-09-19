@@ -136,7 +136,7 @@ applications:
             value: "https://workflows.apps.{{ .env }}.gepaplexx.com/oauth2/callback"
           - name: "argo_workflows.rbac.clusterscoped.enabled"
             value: "{{ .ArgoWorkflowsClusterScopedGroupEnabled }}"
-          - name: "argo_workflows.server.sso.clientSecret.secret"
+          - name: "argo_workflows.rbac.clientSecret"
             value: "{{ .ArgoWorkflowsSsoClientSecret }}"
           - name: "argo_workflows.archive.secretkey"
             value: "{{ .ArgoWorkflowsMinioSecretkey }}"
