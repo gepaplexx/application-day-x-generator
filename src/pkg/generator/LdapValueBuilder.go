@@ -5,7 +5,7 @@ import (
 	utils "gepaplexx/day-x-generator/pkg/util"
 )
 
-type LdapOAuthValueBuilder struct{}
+type LdapValueBuilder struct{}
 
 const LDAP_SECRET_TEMPLATE string = `
 apiVersion: v1
@@ -21,7 +21,7 @@ data:
   groupsQuery: "{{ .LdapGroupsQuery }}"
 `
 
-func (gen *LdapOAuthValueBuilder) GetValues(config map[string]Value) (map[string]Value, error) {
+func (gen *LdapValueBuilder) GetValues(config map[string]Value) (map[string]Value, error) {
 	values := make(map[string]Value)
 	values["LdapEnabled"] = config["LdapEnabled"]
 	if config["LdapEnabled"].Equal(false) {
@@ -45,11 +45,11 @@ func (gen *LdapOAuthValueBuilder) GetValues(config map[string]Value) (map[string
 		return nil, err
 	}
 
-	values["LdapBindPassword"] = encryptedValues["LdapBindPassword"]
-	values["LdapBindDn"] = encryptedValues["LdapBindDn"]
-	values["LdapUrl"] = encryptedValues["LdapUrl"]
-	values["LdapUsersQuery"] = encryptedValues["LdapUsersQuery"]
-	values["LdapGroupsQuery"] = encryptedValues["LdapGroupsQuery"]
+	values["LdapBindPassword"] = encryptedValues["bindPAssword"]
+	values["LdapBindDn"] = encryptedValues["bindDn"]
+	values["LdapUrl"] = encryptedValues["ldapUrl"]
+	values["LdapUsersQuery"] = encryptedValues["usersQuery"]
+	values["LdapGroupsQuery"] = encryptedValues["groupsQuery"]
 
 	return values, nil
 }
