@@ -83,6 +83,20 @@ applications:
         - name: "htpasswd.data"
           value: "{{ .HtpasswdData }}"
         {{- end }}
+        - name: "ldap.enable"
+          value: "{{ .LdapEnabled }}"
+        {{- if .LdapEnabled.Val}}
+        - name: "ldap.bindPassword"
+          value: {{ .LdapBindPassword }}
+        - name: "ldap.bindDn"
+          value: {{ .LdapBindDn }}
+        - name: "ldap.ldapUrl"
+          value: {{ .LdapUrl }}
+        - name: "ldap.groupsQuery"
+          value: {{ .LdapGroupsQuery }}
+        - name: "ldap.usersQuery"
+          value: {{ .LdapUsersQuery }}
+        {{- end}}
     syncPolicy:
       automated:
         prune: true

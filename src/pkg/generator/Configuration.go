@@ -17,6 +17,11 @@ var GENERATORS = []Generator{
 		Name:         "htpasswd",
 	},
 	{
+		ValueBuilder: &LdapValueBuilder{},
+		Stage:        InitialClusterSetup,
+		Name:         "ldap",
+	},
+	{
 		ValueBuilder: &ClusterConfigValueBuilder{},
 		Stage:        InitialClusterSetup,
 		Name:         "cluster-config",

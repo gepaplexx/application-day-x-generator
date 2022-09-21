@@ -16,7 +16,13 @@ initial-cluster-setup:
   htpasswd:
     HtpasswdEnabled: # [true | false]
     HtpasswdData: 
-  
+
+  ldap-oauth:
+    LdapEnabled: # [true | false]
+    LdapBindPassword:
+    LdapBindDn:
+    LdapUrl:
+
   cluster-config:
     ArgocdWorkflowrepositoryUsername: 
     ArgocdWorkflowrepositorySshPrivateKeyBase64:
