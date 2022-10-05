@@ -87,15 +87,15 @@ applications:
           value: "{{ .LdapEnabled }}"
         {{- if .LdapEnabled.Val}}
         - name: "ldap.bindPassword"
-          value: {{ .LdapBindPassword }}
+          value: "{{ .LdapBindPassword }}"
         - name: "ldap.bindDn"
-          value: {{ .LdapBindDn }}
+          value: "{{ .LdapBindDn }}"
         - name: "ldap.ldapUrl"
-          value: {{ .LdapUrl }}
+          value: "{{ .LdapUrl }}"
         - name: "ldap.groupsQuery"
-          value: {{ .LdapGroupsQuery }}
+          value: "{{ .LdapGroupsQuery }}"
         - name: "ldap.usersQuery"
-          value: {{ .LdapUsersQuery }}
+          value: "{{ .LdapUsersQuery }}"
         {{- end}}
     syncPolicy:
       automated:

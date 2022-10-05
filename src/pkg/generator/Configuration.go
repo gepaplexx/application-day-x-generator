@@ -19,7 +19,7 @@ var GENERATORS = []Generator{
 	{
 		ValueBuilder: &LdapValueBuilder{},
 		Stage:        InitialClusterSetup,
-		Name:         "ldap",
+		Name:         "ldap-oauth",
 	},
 	{
 		ValueBuilder: &ClusterConfigValueBuilder{},

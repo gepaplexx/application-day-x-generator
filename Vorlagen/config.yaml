@@ -1,4 +1,4 @@
-env:
+env: play
 
 initial-cluster-setup:
   google-oauth:
@@ -18,10 +18,12 @@ initial-cluster-setup:
     HtpasswdData: 
 
   ldap-oauth:
-    LdapEnabled: # [true | false]
-    LdapBindPassword:
-    LdapBindDn:
-    LdapUrl:
+    LdapEnabled: true # [true | false]
+    LdapBindPassword: Gepaplexx2022!
+    LdapBindDn: "CN=GP Admin,OU=Users,OU=GEPAPLEXX,DC=gp,DC=local"
+    LdapUrl: ldap://10.20.26.10:389/OU=Users,OU=GEPAPLEXX,DC=gp,DC=local?cn?sub
+    LdapUsersQuery: "OU=Users,OU=GEPAPLEXX,DC=gp,DC=local"
+    LdapGroupsQuery: "OU=Groups,OU=GEPAPLEXX,DC=gp,DC=local"
 
   cluster-config:
     ArgocdWorkflowrepositoryUsername: 

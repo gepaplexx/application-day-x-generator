@@ -45,7 +45,7 @@ func (gen *LdapValueBuilder) GetValues(config map[string]Value) (map[string]Valu
 		return nil, err
 	}
 
-	values["LdapBindPassword"] = encryptedValues["bindPAssword"]
+	values["LdapBindPassword"] = encryptedValues["bindPassword"]
 	values["LdapBindDn"] = encryptedValues["bindDn"]
 	values["LdapUrl"] = encryptedValues["ldapUrl"]
 	values["LdapUsersQuery"] = encryptedValues["usersQuery"]
