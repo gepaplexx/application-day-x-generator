@@ -18,7 +18,6 @@ data:
   bindDn: "{{ .LdapBindDn }}"
   ldapUrl: "{{ .LdapUrl }}"
   usersQuery: "{{ .LdapUsersQuery }}"
-  groupsQuery: "{{ .LdapGroupsQuery }}"
 `
 
 func (gen *LdapValueBuilder) GetValues(config map[string]Value) (map[string]Value, error) {
@@ -33,14 +32,13 @@ func (gen *LdapValueBuilder) GetValues(config map[string]Value) (map[string]Valu
 	secretVals["LdapBindDn"] = utils.Base64(config["LdapBindDn"])
 	secretVals["LdapUrl"] = utils.Base64(config["LdapUrl"])
 	secretVals["LdapUsersQuery"] = utils.Base64(config["LdapUsersQuery"])
-	secretVals["LdapGroupsQuery"] = utils.Base64(config["LdapGroupsQuery"])
 
 	secretAsByte, err := utils.ReplaceTemplate(secretVals, LDAP_SECRET_TEMPLATE)
 	if err != nil {
 		return nil, err
 	}
 
-	encryptedValues, err := seal.SealValues(secretAsByte, config["env"], "bindPassword", "bindDn", "ldapUrl", "usersQuery", "groupsQuery")
+	encryptedValues, err := seal.SealValues(secretAsByte, config["env"], "bindPassword", "bindDn", "ldapUrl", "usersQuery")
 	if err != nil {
 		return nil, err
 	}
@@ -49,7 +47,6 @@ func (gen *LdapValueBuilder) GetValues(config map[string]Value) (map[string]Valu
 	values["LdapBindDn"] = encryptedValues["bindDn"]
 	values["LdapUrl"] = encryptedValues["ldapUrl"]
 	values["LdapUsersQuery"] = encryptedValues["usersQuery"]
-	values["LdapGroupsQuery"] = encryptedValues["groupsQuery"]
 
 	return values, nil
 }
