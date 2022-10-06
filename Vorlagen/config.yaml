@@ -23,7 +23,6 @@ initial-cluster-setup:
     LdapBindDn: "CN=GP Admin,OU=Users,OU=GEPAPLEXX,DC=gp,DC=local"
     LdapUrl: ldap://10.20.26.10:389/OU=Users,OU=GEPAPLEXX,DC=gp,DC=local?cn?sub
     LdapUsersQuery: "OU=Users,OU=GEPAPLEXX,DC=gp,DC=local"
-    LdapGroupsQuery: "OU=Groups,OU=GEPAPLEXX,DC=gp,DC=local"
 
   cluster-config:
     ArgocdWorkflowrepositoryUsername: 
