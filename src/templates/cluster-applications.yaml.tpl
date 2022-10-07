@@ -42,10 +42,10 @@ applications:
       targetRevision: "*"
       helm:
         parameters:
-          - name: "elasticsearch.resources.requests.memory"
-            value: "{{ .ClusterLoggingRequestMemory }}"
-          - name: "elasticsearch.resources.limits.memory"
-            value: "{{ .ClusterLoggingLimitsMemory }}"
+          - name: "lokistack.backend.secretkey"
+            value: "{{ .ClusterLoggingS3SecretKey }}"
+          - name: "lokistack.minio.enabled"
+            value: "true" #TODO: löschen, sobald NetApp S3 Endpoint fertig konfiguriert ist.
     syncPolicy:
       automated:
         prune: true

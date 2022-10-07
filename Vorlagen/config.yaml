@@ -51,9 +51,8 @@ cluster-applications:
 
   cluster-logging:
     ClusterLoggingEnabled: # [true | false]
-    ClusterLoggingRequestMemory: 
-    ClusterLoggingLimitsMemory: 
-  
+    ClusterLoggingS3SecretKey: ""
+
   cluster-monitoring:
     InfranodesEnabled: # [true | false]
     SlackChannelCritical: # See Incoming Webhooks for apps in https://api.slack.com/apps
