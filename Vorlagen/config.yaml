@@ -73,4 +73,8 @@ cluster-applications:
     ArgoWorkflowsMinioSecretkey: ""
 
   vault:
-    AutoUnsealCreds:
+    AutoUnsealCreds: ""
+
+  grafana-instance:
+    KeycloakClientSecret: ""
+    KeycloakRealmUrl: "https://sso.apps.${ENV}.gepaplexx.com/realms/${REALM}" # Beispiel, nicht vergessen zu ersetzen!

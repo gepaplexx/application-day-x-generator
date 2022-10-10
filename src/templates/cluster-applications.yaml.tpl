@@ -201,10 +201,20 @@ applications:
         parameters:
           - name: "grafana.datasource.prometheus.url"
             value: "https://thanos-querier-openshift-monitoring.apps.{{ .env }}.gepaplexx.com:443"
+          - name: "ingress.hostname"
+            value: "grafana.apps.{{ .env }}.gepaplexx.com"
+          - name: "sso.keycloak.clientSecret"
+            value: "{{ .KeycloakClientSecret }}"
+          - name: "sso.keycloak.realmUrl"
+            value: "{{ .KeycloakRealmUrl }}"
     ignoreDifferences:
       - jsonPointers:
           - /spec/datasources/0/secureJsonData/httpHeaderValue1
         kind: GrafanaDataSource
+        group: integreatly.org
+      - jsonPointers:
+          - /spec/config/auth.generic_oauth/client_secret
+        kind: Grafana
         group: integreatly.org
     syncPolicy:
       automated:
