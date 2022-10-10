@@ -209,10 +209,6 @@ applications:
             value: "{{ .KeycloakRealmUrl }}"
     ignoreDifferences:
       - jsonPointers:
-          - /spec/datasources/0/secureJsonData/httpHeaderValue1
-        kind: GrafanaDataSource
-        group: integreatly.org
-      - jsonPointers:
           - /spec/config/auth.generic_oauth/client_secret
         kind: Grafana
         group: integreatly.org
