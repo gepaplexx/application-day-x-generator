@@ -95,6 +95,11 @@ applications:
         - name: "ldap.usersQuery"
           value: "{{ .LdapUsersQuery }}"
         {{- end}}
+    ignoreDifferences:
+      - group: ""
+        name: ldap-group-syncer
+        kind: ConfigMap
+        namespace: openshift-config
     syncPolicy:
       automated:
         prune: true
