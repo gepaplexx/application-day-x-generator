@@ -71,4 +71,9 @@ var GENERATORS = []Generator{
 		Stage:        ClusterApplications,
 		Name:         "vault",
 	},
+	{
+		ValueBuilder: &GrafanaValueBuilder{},
+		Stage:        ClusterApplications,
+		Name:         "grafana-instance",
+	},
 }
