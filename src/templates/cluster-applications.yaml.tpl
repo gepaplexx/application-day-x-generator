@@ -208,20 +208,11 @@ applications:
           - name: "sso.keycloak.realmUrl"
             value: "{{ .KeycloakRealmUrl }}"
     ignoreDifferences:
-      - # TODO Remove ignoreDifferences section for datasources after GPX-495 has been implemented
+      # TODO Remove ignoreDifferences section for datasources after GPX-495 has been implemented
       - jsonPointers:
           - /spec/datasources/0/secureJsonData/httpHeaderValue1
-        kind: GrafanaDataSource
-        group: integreatly.org
-      - jsonPointers:
           - /spec/datasources/1/secureJsonData/httpHeaderValue1
-        kind: GrafanaDataSource
-        group: integreatly.org
-      - jsonPointers:
           - /spec/datasources/2/secureJsonData/httpHeaderValue1
-        kind: GrafanaDataSource
-        group: integreatly.org
-      - jsonPointers:
           - /spec/datasources/3/secureJsonData/httpHeaderValue1
         kind: GrafanaDataSource
         group: integreatly.org
