@@ -43,27 +43,6 @@ applications:
         prune: true
         selfHeal: true
 
-  ####################### NFS-STORAGE-PROVISIONER ######################
-  nfs-provisioner:
-    name: nfs
-    enabled: false # TODO: enable sobald FW-Freischaltung da ist.
-    argoProject: gepaplexx
-    destination:
-      namespace: nfs-storage-provisioner
-      create: true
-    source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
-      targetRevision: "*"
-      chart: "gp-nfs-provisioner"
-      helm:
-        parameters:
-          - name: "provisioner.nfs.path"
-            value: "/data/col1/{{ .env }}"
-    syncPolicy:
-      automated:
-        prune: true
-        selfHeal: true
-
   ####################### Grafana Operator ######################
   grafana-operator:
     name: grafana-operator
