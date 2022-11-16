@@ -290,3 +290,20 @@ applications:
       automated:
         prune: true
         selfHeal: true
+
+##################### EXTERNAL SECRETS ######################
+  external-secrets:
+    name: external-secrets
+    enabled: true
+    argoProject: gepaplexx
+    destination:
+      namespace: gp-external-secrets
+      create: true
+    source:
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
+      targetRevision: "*"
+      chart: gp-external-secrets-operator
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
