@@ -77,4 +77,3 @@ cluster-applications:
   grafana-instance:
     KeycloakClientSecret: ""
     KeycloakRealmUrl: "https://sso.apps.${ENV}.gepaplexx.com/realms/${REALM}" # Beispiel, nicht vergessen zu ersetzen!
-    ClusterAdminBearerToken: ""
