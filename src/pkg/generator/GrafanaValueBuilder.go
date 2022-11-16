@@ -35,6 +35,7 @@ func (gen *GrafanaValueBuilder) GetValues(config map[string]Value) (map[string]V
 
 	values["KeycloakClientSecret"] = encryptedValues["clientsecret"]
 	values["KeycloakRealmUrl"] = config["KeycloakRealmUrl"]
+	values["ClusterAdminBearerToken"] = config["ClusterAdminBearerToken"]
 
 	return values, nil
 }

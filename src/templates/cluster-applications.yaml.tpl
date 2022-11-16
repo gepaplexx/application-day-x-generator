@@ -199,14 +199,14 @@ applications:
       chart: "gp-grafana-instance"
       helm:
         parameters:
-          - name: "grafana.datasource.prometheus.url"
-            value: "https://thanos-querier-openshift-monitoring.apps.{{ .env }}.gepaplexx.com:443"
           - name: "ingress.hostname"
             value: "grafana.apps.{{ .env }}.gepaplexx.com"
           - name: "sso.keycloak.clientSecret"
             value: "{{ .KeycloakClientSecret }}"
           - name: "sso.keycloak.realmUrl"
             value: "{{ .KeycloakRealmUrl }}"
+          - name: "clusterAdminBearerToken"
+            value: "{{ .ClusterAdminBearerToken }}"
     ignoreDifferences:
       # TODO Remove ignoreDifferences section for datasources after GPX-495 has been implemented
       - jsonPointers:
