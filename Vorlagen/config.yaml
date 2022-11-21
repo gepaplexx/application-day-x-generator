@@ -58,7 +58,8 @@ cluster-applications:
     SlackChannelCritical: # See Incoming Webhooks for apps in https://api.slack.com/apps
     SlackChannelMonitoringInternalApplications: # See Incoming Webhooks for apps in https://api.slack.com/apps
     # Path to alertmanager config file, empty => use default
-    AlertmanagerConfig: 
+    AlertmanagerConfig:
+    PrometheusRemoteWritePassword: ""
 
   gepaplexx-cicd-tools:
     PostgresqlPassword: ""
