@@ -19,9 +19,9 @@ initial-cluster-setup:
 
   ldap-oauth:
     LdapEnabled: true # [true | false]
-    LdapBindPassword: Gepaplexx2022!
+    LdapBindPassword: ""
     LdapBindDn: "CN=GP Admin,OU=Users,OU=GEPAPLEXX,DC=gp,DC=local"
-    LdapUrl: ldap://10.20.26.10:389/OU=Users,OU=GEPAPLEXX,DC=gp,DC=local?cn?sub
+    LdapUrl: ldap://x.x.x.x:389/OU=Users,OU=GEPAPLEXX,DC=gp,DC=local?cn?sub
     LdapUsersQuery: "OU=Users,OU=GEPAPLEXX,DC=gp,DC=local"
 
   cluster-config:
@@ -59,6 +59,8 @@ cluster-applications:
     SlackChannelMonitoringInternalApplications: # See Incoming Webhooks for apps in https://api.slack.com/apps
     # Path to alertmanager config file, empty => use default
     AlertmanagerConfig:
+    # Passwort um per remote-write auf Prometheus auf den HUB-Cluster zugreifen zu können. Das aktuelle Passwort befindet sich im Repository
+    # "inventory-hub" unter "/group_vars/infra_master/hub_monitoring_values.prometheus.extraSecret"
     PrometheusRemoteWritePassword: ""
 
   gepaplexx-cicd-tools:
