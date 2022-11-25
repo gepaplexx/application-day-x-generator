@@ -86,6 +86,10 @@ applications:
             value: "{{ .AlertmanagerYaml }}"
           - name: "infranodes.enabled"
             value: "{{ .InfranodesEnabled }}"
+          - name: "clusterMonitoring.prometheusK8s.clusterName"
+            value: "{{ .env }}"
+          - name: "clusterMonitoring.prometheusK8s.remoteWrite.password"
+            value: "{{ .PrometheusRemoteWritePassword }}"
     syncPolicy:
       automated:
         prune: true
