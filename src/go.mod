@@ -1,6 +1,6 @@
 module gepaplexx/day-x-generator
 
-go 1.18
+go 1.19
 
 require (
 	github.com/DrSmithFr/go-console v0.0.0-20210329073719-0959f5106ed6
