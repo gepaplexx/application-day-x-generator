@@ -10,7 +10,7 @@ import (
 
 	"golang.org/x/crypto/ssh/terminal"
 
-	cursor "github.com/atomicgo/cursor"
+	cursor "atomicgo.dev/cursor"
 )
 
 var FMT_GREENBOLD *formatter.OutputFormatterStyle = formatter.NewOutputFormatterStyle(color.GREEN, color.NULL, []string{color.BOLD})

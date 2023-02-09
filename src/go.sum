@@ -1,3 +1,5 @@
+atomicgo.dev/cursor v0.1.1 h1:0t9sxQomCTRh5ug+hAMCs59x/UmC9QL6Ci5uosINKD4=
+atomicgo.dev/cursor v0.1.1/go.mod h1:Lr4ZJB3U7DfPPOkbH7/6TOtJ4vFGHlgj1nc+n900IpU=
 github.com/DrSmithFr/go-console v0.0.0-20210329073719-0959f5106ed6 h1:zgQExmZCnqr5S1j4uiQ9reDX3HLTzi2PaDxirNy/wrQ=
 github.com/DrSmithFr/go-console v0.0.0-20210329073719-0959f5106ed6/go.mod h1:cqaBCFMNXeRv/xS1pWRE2fAnPtztFV+pLXMPRwe/JQo=
 github.com/DrSmithFr/go-console v0.0.0-20221206120830-097bd4613151 h1:/Oly1n+RZ4r4/QC8XpuVRBwAxJBmrcl8YrmozxLVTdU=
