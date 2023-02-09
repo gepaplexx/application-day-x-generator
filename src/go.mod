@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/DrSmithFr/go-console v0.0.0-20221206120830-097bd4613151
-	github.com/atomicgo/cursor v0.0.1
+	github.com/atomicgo/cursor v0.1.1
 	github.com/google/uuid v1.3.0
 	github.com/sosedoff/ansible-vault-go v0.1.1
 	gopkg.in/yaml.v3 v3.0.1
