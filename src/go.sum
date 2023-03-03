@@ -4,6 +4,8 @@ github.com/DrSmithFr/go-console v0.0.0-20210329073719-0959f5106ed6 h1:zgQExmZCnq
 github.com/DrSmithFr/go-console v0.0.0-20210329073719-0959f5106ed6/go.mod h1:cqaBCFMNXeRv/xS1pWRE2fAnPtztFV+pLXMPRwe/JQo=
 github.com/DrSmithFr/go-console v0.0.0-20221206120830-097bd4613151 h1:/Oly1n+RZ4r4/QC8XpuVRBwAxJBmrcl8YrmozxLVTdU=
 github.com/DrSmithFr/go-console v0.0.0-20221206120830-097bd4613151/go.mod h1:i0k73RL6EtTDu5aa5HCm6P9zJieKYlwNUlqOr5b9eCw=
+github.com/DrSmithFr/go-console v0.0.0-20230303120729-53b56338c5c1 h1:cWuDS9kGTTeqcxa3QsOtxM2hAJLpxB3qkDWNQKkZwWE=
+github.com/DrSmithFr/go-console v0.0.0-20230303120729-53b56338c5c1/go.mod h1:i0k73RL6EtTDu5aa5HCm6P9zJieKYlwNUlqOr5b9eCw=
 github.com/atomicgo/cursor v0.0.1 h1:xdogsqa6YYlLfM+GyClC/Lchf7aiMerFiZQn7soTOoU=
 github.com/atomicgo/cursor v0.0.1/go.mod h1:cBON2QmmrysudxNBFthvMtN32r3jxVRIvzkUiF/RuIk=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
