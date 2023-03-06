@@ -9,7 +9,7 @@ applications:
     enabled: true
     argoProject: gepaplexx
     destination:
-      namespace: gp-infrastructure
+      namespace: openshift-operators
       create: true
     source:
       repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
