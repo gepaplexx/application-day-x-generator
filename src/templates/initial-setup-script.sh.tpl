@@ -95,7 +95,7 @@ function main() {
   oc apply -f {{ .BootstrapInitialClusterSetupYaml }} -n "$CicdNamespace"
   waitForAllSyncedAndHealthy
 
-  ./vault-setup-script.sh {{ .KeycloakClientSecret }}
+  ./vault-setup-script.sh {{ .env }} {{ .KeycloakClientSecret }}
 
   oc apply -f {{ .BootstrapClusterApplicationsYaml }} -n "$CicdNamespace"
   waitForAllSyncedAndHealthy
