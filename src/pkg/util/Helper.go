@@ -1,87 +1,13 @@
 package util
 
 import (
-	"bytes"
 	"fmt"
-	"os/exec"
 	"strings"
-
-	b64 "encoding/base64"
-
-	"text/template"
 
 	"reflect"
 
 	"gopkg.in/yaml.v3"
 )
-
-func Base64(val Value) string {
-	return b64.StdEncoding.EncodeToString([]byte(val.String()))
-}
-
-func Base64Decode(val Value) (string, error) {
-	res, err := b64.StdEncoding.DecodeString(val.String())
-	if err != nil {
-		return "", err
-	}
-
-	return string(res), nil
-}
-
-func ReplaceTemplate(config map[string]string, templ string) ([]byte, error) {
-	secretTemplate, err := template.New("secret").Parse(templ)
-	if err != nil {
-		return nil, err
-	}
-
-	var secret bytes.Buffer
-	err = secretTemplate.Execute(&secret, config)
-	if err != nil {
-		return nil, err
-	}
-
-	return secret.Bytes(), nil
-}
-
-// TODO FindValues anpassen/zusammenführen
-
-// data 	=> YAML formatted String
-// ks... 	=> YAML path, eg. metadata-name
-func FindValues(data []byte, keys ...string) (map[string]Value, error) {
-	yamlAsMap := make(map[string]any)
-	err := yaml.Unmarshal(data, &yamlAsMap)
-	if err != nil {
-		return nil, err
-	}
-
-	values := make(map[string]Value)
-	for _, val := range keys {
-		res, err := findValue(yamlAsMap, strings.Split(val, ":")...)
-		valWithOutPrefix := strings.TrimPrefix(val, "spec:encryptedData:")
-		if err != nil {
-			values[valWithOutPrefix] = Value{"not found"}
-		} else {
-			values[valWithOutPrefix] = Value{fmt.Sprintf("%v", res)}
-		}
-	}
-
-	return values, nil
-}
-
-func FindValue(data []byte, key string) (any, error) {
-	yamlAsMap := make(map[string]any)
-	err := yaml.Unmarshal(data, &yamlAsMap)
-	if err != nil {
-		return nil, err
-	}
-
-	res, err := findValue(yamlAsMap, strings.Split(key, ".")...)
-	if err != nil {
-		return nil, err
-	}
-
-	return res, nil
-}
 
 func FindValuesFlatMap(data []byte, keys ...string) (map[string]Value, error) {
 	yamlAsMap := make(map[string]any)
@@ -128,13 +54,4 @@ func findValue(m map[string]any, keys ...string) (rval any, err error) {
 	} else { // 1+ more keys
 		return findValue(m, keys[1:]...)
 	}
-}
-
-func IsCommandAvailable(name string) bool {
-	cmd := exec.Command("/bin/sh", "-c", "command -v", name)
-	if err := cmd.Run(); err != nil {
-		return false
-	}
-
-	return true
 }

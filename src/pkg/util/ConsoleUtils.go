@@ -8,14 +8,12 @@ import (
 	"fmt"
 	"strings"
 
-	"golang.org/x/crypto/ssh/terminal"
-
-	cursor "atomicgo.dev/cursor"
+	"atomicgo.dev/cursor"
 )
 
-var FMT_GREENBOLD *formatter.OutputFormatterStyle = formatter.NewOutputFormatterStyle(color.Green, color.Null, []string{color.Bold})
-var FMT_REDBOLD *formatter.OutputFormatterStyle = formatter.NewOutputFormatterStyle(color.Red, color.Null, []string{color.Bold})
-var FMT_CYANBOLD *formatter.OutputFormatterStyle = formatter.NewOutputFormatterStyle(color.Cyan, color.Null, []string{color.Bold})
+var FmtGreenbold = formatter.NewOutputFormatterStyle(color.Green, color.Null, []string{color.Bold})
+var FmtRedbold = formatter.NewOutputFormatterStyle(color.Red, color.Null, []string{color.Bold})
+var FmtCyanbold = formatter.NewOutputFormatterStyle(color.Cyan, color.Null, []string{color.Bold})
 
 func PrintDescription(conf string) {
 	out := output.NewCliOutput(true, nil)
@@ -42,34 +40,23 @@ func PrintActionHeader(title string) {
 }
 
 func PrintAction(action string) {
-	fmt.Print(FMT_CYANBOLD.Apply(action))
+	fmt.Print(FmtCyanbold.Apply(action))
 }
 
 func PrintSuccess() {
 	cursor.StartOfLine()
 	cursor.Right(LINELENGTH - 2)
-	fmt.Printf(FMT_GREENBOLD.Apply("OK\n"))
+	fmt.Printf(FmtGreenbold.Apply("OK\n"))
 }
 
 func PrintFailure() {
 	cursor.StartOfLine()
 	cursor.Right(LINELENGTH - 6)
-	fmt.Printf(FMT_REDBOLD.Apply("FAILED\n"))
+	fmt.Printf(FmtRedbold.Apply("FAILED\n"))
 }
 
 func WaitToContinue() {
 	// https://golangbyexample.com/how-to-pause-a-go-program-until-enter-key-is-pressed/
 	fmt.Println("Press enter to continue...")
 	fmt.Scanln()
-}
-
-func ReadFromStdin(desc string) (string, error) {
-	fmt.Print("Enter vault password: ")
-	bytePassword, err := terminal.ReadPassword(0)
-	if err != nil {
-		return "", err
-	}
-
-	password := string(bytePassword)
-	return password, nil
 }

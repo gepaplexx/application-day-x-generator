@@ -3,8 +3,8 @@ package generator
 import (
 	"fmt"
 	utils "gepaplexx/day-x-generator/pkg/util"
-
 	"os"
+	"strings"
 	"text/template"
 )
 
@@ -13,97 +13,117 @@ type IValueBuilder interface {
 }
 
 type Stage string
-
-const (
-	InitialClusterSetup    Stage = "initial-cluster-setup"
-	ClusterSetupCheckpoint Stage = "cluster-setup-checkpoint"
-	ClusterApplications    Stage = "cluster-applications"
-)
-
 type Generator struct {
 	ValueBuilder IValueBuilder
 	Stage        Stage
 	Name         string
 }
 
-type Value = utils.Value
+const (
+	InitialClusterSetup Stage = "initial-cluster-setup"
+	ClusterApplications Stage = "cluster-applications"
+	VaultSetupScript    Stage = "vault-setup-script"
+	ArgoBootstrap       Stage = "argo-bootstrap"
+)
+
+var stages = map[Stage]string{
+	InitialClusterSetup: "initial-cluster-setup.yaml.tpl",
+	ClusterApplications: "cluster-applications.yaml.tpl",
+	VaultSetupScript:    "vault-setup-script.sh.tpl",
+	ArgoBootstrap:       "argocd-bootstrap-app.yaml.tpl",
+}
 
 func Process(config []byte, generators []Generator) error {
-	initialClusterSetupVals := make(map[string]utils.Value)
-	clusterSetupCheckpointVals := make(map[string]utils.Value)
-	clusterApplicationsVals := make(map[string]utils.Value)
-
 	conf, err := utils.FindValuesFlatMap(config, "env")
 	if err != nil {
 		return err
 	}
+	env := conf["env"]
 
-	initialClusterSetupVals["env"] = conf["env"]
-	clusterSetupCheckpointVals["env"] = conf["env"]
-	clusterApplicationsVals["env"] = conf["env"]
-
-	utils.PrintActionHeader("BUILD VALUE YAML FILES")
-	for _, gen := range generators {
-		conf, err = utils.FindValuesFlatMap(config, "env", fmt.Sprintf("%s.%s", gen.Stage, gen.Name))
-		if err != nil {
-			return err
-		}
-
-		utils.PrintAction("Get Values for " + gen.Name)
-		res, err := gen.ValueBuilder.GetValues(conf)
-		if err != nil {
-			utils.PrintFailure()
-			return err
-		}
-		utils.PrintSuccess()
-
-		switch gen.Stage {
-		case InitialClusterSetup:
-			for k, v := range res {
-				initialClusterSetupVals[k] = v
-			}
-		case ClusterSetupCheckpoint:
-			for k, v := range res {
-				clusterSetupCheckpointVals[k] = v
-			}
-		case ClusterApplications:
-			for k, v := range res {
-				clusterApplicationsVals[k] = v
-			}
-		}
+	utils.PrintActionHeader("Generate values yaml for initial-cluster-setup")
+	err = processGeneric(config, generators, env, InitialClusterSetup)
+	if err != nil {
+		return err
 	}
-
-	if len(initialClusterSetupVals) != 0 {
-		err = executeAndWriteTemplate(InitialClusterSetup, initialClusterSetupVals)
-		if err != nil {
-			return err
-		}
+	utils.PrintActionHeader("Generate values yaml for cluster-applications")
+	err = processGeneric(config, generators, env, ClusterApplications)
+	if err != nil {
+		return err
 	}
-
-	if len(clusterSetupCheckpointVals) != 0 {
-		err = executeAndWriteTemplate(ClusterSetupCheckpoint, clusterSetupCheckpointVals)
-		if err != nil {
-			return err
-		}
+	utils.PrintActionHeader("Generate vault setup script")
+	err = processGeneric(config, generators, env, VaultSetupScript)
+	if err != nil {
+		return err
 	}
-
-	if len(clusterApplicationsVals) != 0 {
-		err = executeAndWriteTemplate(ClusterApplications, clusterApplicationsVals)
-		if err != nil {
-			return err
-		}
+	utils.PrintActionHeader("Generate Bootstrap Applications")
+	err = processBootstrapApps(config, generators, env)
+	if err != nil {
+		return err
 	}
 
 	return nil
 }
 
-func executeAndWriteTemplate(stage Stage, values map[string]utils.Value) error {
-	dest, err := createFile(fmt.Sprintf("%s/%s-%s.yaml", utils.TARGET_DIR, values["env"], stage))
+func processGeneric(config []byte, generators []Generator, env utils.Value, stage Stage) error {
+	stageGenerators := findAllFor(generators, stage)
+	vals := make(map[string]utils.Value)
+	vals["env"] = env
+	for _, currGen := range stageGenerators {
+		currVals, err := utils.FindValuesFlatMap(config, buildSearchPath(currGen))
+		if err != nil {
+			return err
+		}
+		utils.PrintAction("Get values for " + currGen.Name)
+		finalVals, err := currGen.ValueBuilder.GetValues(currVals)
+		if err != nil {
+			utils.PrintFailure()
+			return err
+		}
+		utils.PrintSuccess()
+		for k, v := range finalVals {
+			vals[k] = v
+		}
+	}
+
+	err := executeAndWriteTemplate(vals, stage, env.String(), "", stages[stage])
 	if err != nil {
 		return err
 	}
 
-	destTemplPath := fmt.Sprintf("templates/%s.yaml.tpl", stage)
+	return nil
+}
+
+func processBootstrapApps(config []byte, generators []Generator, env utils.Value) error {
+	bootstrapGenerators := findAllFor(generators, ArgoBootstrap)
+	var apps = make(map[string]map[string]utils.Value)
+	for _, currGen := range bootstrapGenerators {
+		currVals, _ := utils.FindValuesFlatMap(config, buildSearchPath(currGen))
+		utils.PrintAction("Get values for " + currGen.Name)
+		finalVals, err := currGen.ValueBuilder.GetValues(currVals)
+		if err != nil {
+			utils.PrintFailure()
+			return err
+		}
+		utils.PrintSuccess()
+		apps[currGen.Name] = finalVals
+	}
+
+	for app, vals := range apps {
+		err := executeAndWriteTemplate(vals, ArgoBootstrap, env.String(), app, stages[ArgoBootstrap])
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+}
+
+func executeAndWriteTemplate(values map[string]utils.Value, stage Stage, env string, genName string, templateName string) error {
+	dest, err := createFile(buildFilename(stage, env, genName, templateName))
+	if err != nil {
+		return err
+	}
+
+	destTemplPath := fmt.Sprintf("templates/%s", templateName)
 	utils.PrintAction("Read template '" + destTemplPath + "'")
 	destTempl, err := template.ParseFiles(destTemplPath)
 	if err != nil {
@@ -112,7 +132,6 @@ func executeAndWriteTemplate(stage Stage, values map[string]utils.Value) error {
 		return err
 	}
 	utils.PrintSuccess()
-
 	utils.PrintAction("Writing final file...")
 	err = destTempl.Execute(dest, values)
 	if err != nil {
@@ -127,6 +146,15 @@ func executeAndWriteTemplate(stage Stage, values map[string]utils.Value) error {
 	return nil
 }
 
+func buildFilename(stage Stage, env string, genName string, templateName string) string {
+	var prefix = ""
+	if stage == ArgoBootstrap {
+		prefix = genName
+	}
+
+	return fmt.Sprintf("%s/%s%s-%s", utils.TARGET_DIR, prefix, env, strings.TrimSuffix(templateName, ".tpl"))
+}
+
 func createFile(path string) (*os.File, error) {
 	utils.PrintAction("Creating file for values...")
 	file, err := os.Create(path)
@@ -137,4 +165,23 @@ func createFile(path string) (*os.File, error) {
 	utils.PrintSuccess()
 
 	return file, nil
+}
+
+func findAllFor(generators []Generator, stage Stage) []Generator {
+	res := []Generator{}
+	for _, currGen := range generators {
+		if currGen.Stage == stage {
+			res = append(res, currGen)
+		}
+	}
+
+	return res
+}
+
+func buildSearchPath(gen Generator) string {
+	if gen.Name == "" {
+		return fmt.Sprintf("%s", gen.Stage)
+	}
+
+	return fmt.Sprintf("%s.%s", gen.Stage, gen.Name)
 }
