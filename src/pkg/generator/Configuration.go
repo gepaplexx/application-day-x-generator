@@ -90,4 +90,16 @@ var GENERATORS = []Generator{
 		Stage:        ArgoBootstrap,
 		Name:         "cluster-applications",
 	},
+	{
+		ValueBuilder: &GenericCopyValueBuilder{},
+		Stage:        ClusterArgoCD,
+	},
+	{
+		ValueBuilder: &InitialSetupScriptValueBuilder{},
+		Stage:        InitialSetupScript,
+	},
+	{
+		ValueBuilder: &GenericCopyValueBuilder{},
+		Stage:        ClusterArgoCDRepo,
+	},
 }

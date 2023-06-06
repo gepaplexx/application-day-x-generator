@@ -24,6 +24,9 @@ const (
 	ClusterApplications Stage = "cluster-applications"
 	VaultSetupScript    Stage = "vault-setup-script"
 	ArgoBootstrap       Stage = "argo-bootstrap"
+	ClusterArgoCD       Stage = "cluster-argocd"
+	InitialSetupScript  Stage = "initial-setup-script"
+	ClusterArgoCDRepo   Stage = "cluster-argocd-workflow-repo"
 )
 
 var stages = map[Stage]string{
@@ -31,6 +34,9 @@ var stages = map[Stage]string{
 	ClusterApplications: "cluster-applications.yaml.tpl",
 	VaultSetupScript:    "vault-setup-script.sh.tpl",
 	ArgoBootstrap:       "argocd-bootstrap-app.yaml.tpl",
+	ClusterArgoCD:       "cluster-argocd.yaml.tpl",
+	InitialSetupScript:  "initial-setup-script.sh.tpl",
+	ClusterArgoCDRepo:   "cluster-argocd-workflow-repo.yaml.tpl",
 }
 
 func Process(config []byte, generators []Generator) error {
@@ -55,6 +61,22 @@ func Process(config []byte, generators []Generator) error {
 	if err != nil {
 		return err
 	}
+	utils.PrintActionHeader("Generate Cluster ArgoCD")
+	err = processGeneric(config, generators, env, ClusterArgoCD)
+	if err != nil {
+		return err
+	}
+	utils.PrintActionHeader("Generate initial setup script")
+	err = processGeneric(config, generators, env, InitialSetupScript)
+	if err != nil {
+		return err
+	}
+	utils.PrintActionHeader("Generate cluster ArgoCD Repo")
+	err = processGeneric(config, generators, env, ClusterArgoCDRepo)
+	if err != nil {
+		return err
+	}
+
 	utils.PrintActionHeader("Generate Bootstrap Applications")
 	err = processBootstrapApps(config, generators, env)
 	if err != nil {
@@ -67,9 +89,9 @@ func Process(config []byte, generators []Generator) error {
 func processGeneric(config []byte, generators []Generator, env utils.Value, stage Stage) error {
 	stageGenerators := findAllFor(generators, stage)
 	vals := make(map[string]utils.Value)
-	vals["env"] = env
 	for _, currGen := range stageGenerators {
 		currVals, err := utils.FindValuesFlatMap(config, buildSearchPath(currGen))
+		currVals["env"] = env
 		if err != nil {
 			return err
 		}
@@ -147,12 +169,12 @@ func executeAndWriteTemplate(values map[string]utils.Value, stage Stage, env str
 }
 
 func buildFilename(stage Stage, env string, genName string, templateName string) string {
-	var prefix = ""
+	var identifier = ""
 	if stage == ArgoBootstrap {
-		prefix = genName
+		identifier = fmt.Sprintf("-%s", genName)
 	}
 
-	return fmt.Sprintf("%s/%s%s-%s", utils.TARGET_DIR, prefix, env, strings.TrimSuffix(templateName, ".tpl"))
+	return fmt.Sprintf("%s/%s%s-%s", utils.TARGET_DIR, env, identifier, strings.TrimSuffix(templateName, ".tpl"))
 }
 
 func createFile(path string) (*os.File, error) {
