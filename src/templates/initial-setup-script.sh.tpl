@@ -4,11 +4,11 @@ CicdNamespace="${CICD_NAMESPACE:-{{ .CicdNamespace }}}"
 
 # functions
 function getNotSynced() {
-  oc get applications --insecure-skip-tls-verify -o jsonpath='{.items[*].status.sync}' --kubeconfig="${KUBECONFIG}" -n openshift-gitops | jq 'select(.status != "Synced")' -c | wc -l
+  oc get applications --insecure-skip-tls-verify -o jsonpath='{.items[*].status.sync}' --kubeconfig="${KUBECONFIG}" -n "$CicdNamespace" | jq 'select(.status != "Synced")' -c | wc -l
 }
 
 function getNotHealthy() {
-  oc get applications --insecure-skip-tls-verify -o jsonpath='{.items[*].status.health}' --kubeconfig="${KUBECONFIG}" -n openshift-gitops | jq 'select(.status != "Healthy")' -c | wc -l
+  oc get applications --insecure-skip-tls-verify -o jsonpath='{.items[*].status.health}' --kubeconfig="${KUBECONFIG}" -n "$CicdNamespace" | jq 'select(.status != "Healthy")' -c | wc -l
 }
 
 function waitForSync() {

@@ -1,6 +1,6 @@
 project:
   create: false
-  name: gepaplexx
+  name: gepardec-run
 
 applications:
 #################### KEYCLOAK-INSTANCE ######################
@@ -29,7 +29,7 @@ applications:
           - name: "keycloakConfigCli.cluster"
             value: "{{ .env }}"
           - name: "keycloakConfigCli.identityProvider.openshift.baseUrl"
-            value: "{{ .KeycloakInstanceApiUrl }}"
+            value: "sso.{{ .env }}.run.gepardec.com"
     syncPolicy:
       automated:
         prune: true
@@ -52,11 +52,11 @@ applications:
         prune: true
         selfHeal: true
 
-  ##################### GEPAPLEXX-CICD-TOOLS ######################
+  ##################### CICD-TOOLS ######################
   cicd-tools:
     name: cicd-tools
     enabled: true
-    argoProject: gepaplexx
+    argoProject: gepardec-run
     destination:
       namespace: gp-cicd-tools
       create: true
@@ -79,7 +79,7 @@ applications:
         prune: true
         selfHeal: true
 
-  ##################### GEPAPLEXX-CICD-EVENTBUS ######################
+  ##################### CICD-EVENTBUS ######################
   cicd-eventbus:
     name: cicd-eventbus
     enabled: true
@@ -96,7 +96,7 @@ applications:
         prune: true
         selfHeal: true
 
-###################### GEPAPLEXX-CICD ######################
+##################### GEPARDEC-RUN-CICD ####################
   gepardec-run-cicd:
     name: gepardec-run-cicd
     enabled: true

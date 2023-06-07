@@ -56,8 +56,6 @@ spec:
       p, role:gepardec-admin, applications, *, *, allow
       p, role:gepardec-admin, repositories, *, *, allow
       p, role:gepardec-admin, projects, *, *, allow
-      g, gepardec-run-admins, role:admin
-      g, Developers, role:gepardec-admin
     scopes: '[groups]'
   repo:
     resources:

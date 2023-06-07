@@ -39,7 +39,7 @@ var GENERATORS = []Generator{
 	{
 		ValueBuilder: &GenericCopyValueBuilder{},
 		Stage:        ClusterApplications,
-		Name:         "gepaplexx-cicd-tools",
+		Name:         "cicd-tools",
 	},
 	{
 		ValueBuilder: &GenericCopyValueBuilder{},

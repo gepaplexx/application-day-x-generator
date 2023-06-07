@@ -41,12 +41,11 @@ cluster-applications:
   keycloak-instance:
     KeyCloakInstanceChartVersion: "*" 
     KeycloakInstanceConfigCliEnabled: true # [true | false]
-    KeycloakInstanceApiUrl: "https://api.c-gepa-play.gepa.vshnmanaged.net:6443"
 
   external-secrets-config:
     ExternalSecretsConfigChartVersion: "*" 
 
-  gepaplexx-cicd-tools:
+  cicd-tools:
     CicdToolsChartVersion: "*" 
     ArgoWorkflowsClusterScopedGroupEnabled: true # [true | false]
 
