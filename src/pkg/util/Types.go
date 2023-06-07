@@ -9,7 +9,7 @@ type Value struct {
 func (v Value) String() string {
 	switch v.Val.(type) {
 	case string:
-		return fmt.Sprintf("%s", v.Val)
+		return fmt.Sprintf("%s", v.Val.(string))
 	case bool:
 		return fmt.Sprintf("%t", v.Val)
 	case int, int8, int16, int32, int64:

@@ -2,78 +2,104 @@ package generator
 
 var GENERATORS = []Generator{
 	{
-		ValueBuilder: &GoogleOAuthValueBuilder{},
+		ValueBuilder: &GenericCopyValueBuilder{},
 		Stage:        InitialClusterSetup,
-		Name:         "google-oauth",
+		Name:         "keycloak-operator",
 	},
 	{
-		ValueBuilder: &GitOAuthValueBuilder{},
+		ValueBuilder: &GenericCopyValueBuilder{},
 		Stage:        InitialClusterSetup,
-		Name:         "github-oauth",
+		Name:         "external-secret",
 	},
 	{
-		ValueBuilder: &HtpasswdValueBuilder{},
+		ValueBuilder: &GenericCopyValueBuilder{},
 		Stage:        InitialClusterSetup,
-		Name:         "htpasswd",
+		Name:         "grafana-operator",
 	},
 	{
-		ValueBuilder: &LdapValueBuilder{},
+		ValueBuilder: &GenericCopyValueBuilder{},
 		Stage:        InitialClusterSetup,
-		Name:         "ldap-oauth",
-	},
-	{
-		ValueBuilder: &ClusterConfigValueBuilder{},
-		Stage:        InitialClusterSetup,
-		Name:         "cluster-config",
-	},
-	{
-		ValueBuilder: &ClusterIssuerValueBuilder{},
-		Stage:        InitialClusterSetup,
-		Name:         "cluster-issuer",
-	},
-	{
-		ValueBuilder: &ConsolePatchesValueBuilder{},
-		Stage:        InitialClusterSetup,
-		Name:         "console-patches",
-	},
-	{
-		ValueBuilder: &RookCephInstanceValueBuilder{},
-		Stage:        ClusterSetupCheckpoint,
-		Name:         "rook-ceph-instance",
-	},
-	{
-		ValueBuilder: &KeycloakInstanceValueBuilder{},
-		Stage:        ClusterSetupCheckpoint,
-		Name:         "keycloak-instance",
-	},
-	{
-		ValueBuilder: &ClusterLoggingValueBuilder{},
-		Stage:        ClusterApplications,
-		Name:         "cluster-logging",
-	},
-	{
-		ValueBuilder: &ClusterMonitoringValueBuilder{},
-		Stage:        ClusterApplications,
-		Name:         "cluster-monitoring",
-	},
-	{
-		ValueBuilder: &ClusterUpdaterValueBuilder{},
-		Stage:        ClusterApplications,
-		Name:         "cluster-updater",
-	},
-	{
-		ValueBuilder: &GepaplexxCicdToolsValueBuilder{},
-		Stage:        ClusterApplications,
-		Name:         "gepaplexx-cicd-tools",
-	},
-	{
-		ValueBuilder: &VaultValueBuilder{},
-		Stage:        ClusterApplications,
 		Name:         "vault",
 	},
 	{
-		ValueBuilder: &GrafanaValueBuilder{},
+		ValueBuilder: &GenericCopyValueBuilder{},
+		Stage:        InitialClusterSetup,
+		Name:         "kyverno",
+	},
+	{
+		ValueBuilder: &GenericCopyValueBuilder{},
+		Stage:        ClusterApplications,
+		Name:         "keycloak-instance",
+	},
+	{
+		ValueBuilder: &GenericCopyValueBuilder{},
+		Stage:        ClusterApplications,
+		Name:         "external-secrets-config",
+	},
+	{
+		ValueBuilder: &GenericCopyValueBuilder{},
+		Stage:        ClusterApplications,
+		Name:         "cicd-tools",
+	},
+	{
+		ValueBuilder: &GenericCopyValueBuilder{},
+		Stage:        ClusterApplications,
+		Name:         "cicd-eventbus",
+	},
+	{
+		ValueBuilder: &GenericCopyValueBuilder{},
+		Stage:        ClusterApplications,
+		Name:         "gerpardec-run-cicd",
+	},
+	{
+		ValueBuilder: &GenericCopyValueBuilder{},
 		Stage:        ClusterApplications,
 		Name:         "grafana-instance",
+	},
+	{
+		ValueBuilder: &GenericCopyValueBuilder{},
+		Stage:        ClusterApplications,
+		Name:         "grafana-dashboards",
+	},
+	{
+		ValueBuilder: &GenericCopyValueBuilder{},
+		Stage:        ClusterApplications,
+		Name:         "multena",
+	},
+	{
+		ValueBuilder: &GenericCopyValueBuilder{},
+		Stage:        ClusterApplications,
+		Name:         "altermanager",
+	},
+	{
+		ValueBuilder: &GenericCopyValueBuilder{},
+		Stage:        ClusterApplications,
+		Name:         "one-time-secret",
+	},
+	{
+		ValueBuilder: &GenericCopyValueBuilder{},
+		Stage:        VaultSetupScript,
+	},
+	{
+		ValueBuilder: &GenericCopyValueBuilder{},
+		Stage:        ArgoBootstrap,
+		Name:         "initial-cluster-setup",
+	},
+	{
+		ValueBuilder: &GenericCopyValueBuilder{},
+		Stage:        ArgoBootstrap,
+		Name:         "cluster-applications",
+	},
+	{
+		ValueBuilder: &GenericCopyValueBuilder{},
+		Stage:        ClusterArgoCD,
+	},
+	{
+		ValueBuilder: &InitialSetupScriptValueBuilder{},
+		Stage:        InitialSetupScript,
+	},
+	{
+		ValueBuilder: &GenericCopyValueBuilder{},
+		Stage:        ClusterArgoCDRepo,
 	},
 }

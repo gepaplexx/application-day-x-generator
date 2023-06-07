@@ -1,214 +1,136 @@
 project:
   create: false
-  name: gepaplexx
+  name: gepardec-run
 
 applications:
-####################### CLUSTER-UPDATER #######################
-  clusterUpdater:
-    name: cluster-updater
+#################### KEYCLOAK-INSTANCE ######################
+  keycloak-instance:
+    name: keycloak-instance
     enabled: true
-    argoProject: gepaplexx
+    argoProject: gepardec-run
     destination:
-      namespace: gp-infrastructure
-      create: true
-    source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
-      chart: gp-cluster-update-checker
-      targetRevision: "*"
-      helm:
-        parameters:
-          - name: "clustername"
-            value: "{{ .env }}"
-          - name: "consoleUrl"
-            value: "console.apps.{{ .env }}.gepaplexx.com"
-          - name: "slack.channel"
-            value: "{{ .SlackChannel }}"
-    syncPolicy:
-      automated:
-        prune: true
-        selfHeal: true
-
-####################### CLUSTER-LOGGING #######################
-  clusterLogging:
-    name: cluster-logging-instance
-    enabled: {{ .ClusterLoggingEnabled }}
-    destination:
-      namespace: openshift-logging
+      namespace: gp-sso
       create: false
-    argoProject: gepaplexx
+    ignoreDifferences:
+      - jsonPointers:
+          - /secret
+        kind: OAuthClient
+        group: oauth.openshift.io
     source:
       repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
-      chart: gp-cluster-logging-instance
-      targetRevision: "*"
+      chart: gp-keycloak-instance
+      targetRevision: "{{ or .KeyCloakInstanceChartVersion "1.0.*" }}"
       helm:
         parameters:
-          - name: "lokistack.backend.secretkey"
-            value: "{{ .ClusterLoggingS3SecretKey }}"
-          - name: "lokistack.minio.enabled"
-            value: "true" #TODO: löschen, sobald NetApp S3 Endpoint fertig konfiguriert ist.
-    syncPolicy:
-      automated:
-        prune: true
-        selfHeal: true
-
-####################### CLUSTER-LOGGING-EVENTROUTER #######################
-  clusterLoggingEventrouter:
-    name: cluster-logging-eventrouter
-    enabled: true
-    destination:
-      namespace: openshift-logging
-      create: false
-    argoProject: gepaplexx
-    source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
-      chart: gp-cluster-logging-eventrouter
-      targetRevision: "*"
-    syncPolicy:
-      automated:
-        prune: true
-        selfHeal: true
-
-##################### CLUSTER-MONITORING ######################
-  clusterMonitoring:
-    name: cluster-monitoring
-    enabled: true
-    argoProject: gepaplexx
-    destination:
-      namespace: openshift-monitoring
-      create: true
-    source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
-      chart: gp-cluster-monitoring-config
-      targetRevision: "*"
-      helm:
-        parameters:
-          - name: "alertmanager.config"
-            value: "{{ .AlertmanagerYaml }}"
-          - name: "infranodes.enabled"
-            value: "{{ .InfranodesEnabled }}"
-          - name: "clusterMonitoring.prometheusK8s.clusterName"
+          - name: "ingress.hostname"
+            value: "sso.{{ .env }}.run.gepardec.com"
+          - name: "keycloakConfigCli.enabled"
+            value: "{{ .KeycloakInstanceConfigCliEnabled }}"
+          - name: "keycloakConfigCli.cluster"
             value: "{{ .env }}"
-          - name: "clusterMonitoring.prometheusK8s.remoteWrite.password"
-            value: "{{ .PrometheusRemoteWritePassword }}"
+          - name: "keycloakConfigCli.identityProvider.openshift.baseUrl"
+            value: "sso.{{ .env }}.run.gepardec.com"
     syncPolicy:
       automated:
         prune: true
         selfHeal: true
 
-##################### OPENSHIFT IMAGE REGISTRY ######################
-  internalRegistry:
-    name: openshift-registry
+############## EXTERNAL SECRETS CONFIGURATION ###############
+  external-secrets:
+    name: external-secrets-configuration
     enabled: true
-    argoProject: gepaplexx
+    argoProject: gepardec-run
     destination:
-      namespace: gp-infrastructure
-      create: true
+      namespace: gp-external-secrets
+      create: false
     source:
       repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
-      chart: gp-ocp-internal-registry
-      targetRevision: "*"
+      targetRevision: "{{ or .ExternalSecretsConfigChartVersion "1.0.*" }}"
+      chart: gp-external-secrets-configuration
     syncPolicy:
       automated:
         prune: true
         selfHeal: true
 
-  ##################### GEPAPLEXX-CICD-TOOLS ######################
-  gepaplexx-cicd-tools:
-    name: gepaplexx-cicd-tools
+  ##################### CICD-TOOLS ######################
+  cicd-tools:
+    name: cicd-tools
     enabled: true
-    argoProject: gepaplexx
+    argoProject: gepardec-run
     destination:
-      namespace: gepaplexx-cicd-tools
+      namespace: gp-cicd-tools
       create: true
     source:
       repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
       chart: gp-cicd-tools
-      targetRevision: "*"
+      targetRevision: "{{ or .CicdToolsChartVersion "1.0.*" }}"
       helm:
         parameters:
-          - name: "argocd.route.hostname"
-            value: "argocd.apps.{{ .env }}.gepaplexx.com"
-          - name: "argo_workflows.server.ingress.hosts[0]"
-            value: "workflows.apps.{{ .env }}.gepaplexx.com"
-          - name: "argo_workflows.server.ingress.tls[0].hosts[0]"
-            value: "workflows.apps.{{ .env }}.gepaplexx.com"
-          - name: "argo_workflows.server.ingress.tls[0].secretName"
-            value: "workflows.apps.{{ .env }}.gepaplexx.com-tls"
-          - name: "argo_workflows.server.sso.issuer"
-            value: "{{ .ArgoWorkflowsSsoIssuer }}"
-          - name: "argo_workflows.server.sso.redirectUrl"
-            value: "https://workflows.apps.{{ .env }}.gepaplexx.com/oauth2/callback"
+          - name: "clustername"
+            value: "{{ .env }}"
           - name: "argo_workflows.rbac.clusterscoped.enabled"
             value: "{{ .ArgoWorkflowsClusterScopedGroupEnabled }}"
-          - name: "argo_workflows.rbac.clientSecret"
-            value: "{{ .ArgoWorkflowsSsoClientSecret }}"
-          - name: "argo_workflows.archive.secretkey"
-            value: "{{ .ArgoWorkflowsMinioSecretkey }}"
-          - name: "sealedSecret.postgresql.password"
-            value: "{{ .PostgresqlPassword }}"
-          - name: "sealedSecret.postgresql.postgresPassword"
-            value: "{{ .PostgresqlPostgresPassword }}"
-          - name: "sealedSecret.postgresql.username"
-            value: "{{ .PostgresqlUsername }}"
+          - name: "argo_workflows.server.sso.issuer"
+            value: "https://sso.{{ .env }}.run.gepardec.com/realms/internal"
+          - name: "argo_workflows.server.sso.redirectUrl"
+            value: "https://workflows.{{ .env }}.run.gepardec.com/oauth2/callback"
     syncPolicy:
       automated:
         prune: true
         selfHeal: true
 
-  ##################### GEPAPLEXX-CICD-EVENTBUS ######################
-  gepaplexx-cicd-eventbus:
-    name: gepaplexx-cicd-eventbus
+  ##################### CICD-EVENTBUS ######################
+  cicd-eventbus:
+    name: cicd-eventbus
     enabled: true
-    argoProject: gepaplexx
+    argoProject: gepardec-run
     destination:
-      namespace: gepaplexx-cicd-eventbus
+      namespace: gp-cicd-eventbus
       create: true
     source:
       repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
-      chart: gepaplexx-cicd-eventbus
-      targetRevision: "*"
+      chart: gp-cicd-eventbus
+      targetRevision: "{{ or .CicdEventbusChartVersion "1.0.*" }}"
     syncPolicy:
       automated:
         prune: true
         selfHeal: true
 
-  ##################### GEPAPLEXX-CICD ######################
-  gepaplexx-cicd:
-    name: gepaplexx-cicd
+##################### GEPARDEC-RUN-CICD ####################
+  gepardec-run-cicd:
+    name: gepardec-run-cicd
     enabled: true
-    argoProject: gepaplexx
+    argoProject: gepardec-run
     destination:
-      namespace: openshift-gitops
+      namespace: gepardec-run-gitops
       create: false
     source:
       repoURL: "git@github.com:gepaplexx/gepaplexx-cicd.git"
-      targetRevision: "main"
+      targetRevision: "{{ or .GepardecRunCicdChartVersion "main" }}"
       path: "clusters/{{ .env }}/applications"
     syncPolicy:
       automated:
         prune: true
         selfHeal: true
 
-  ####################### Grafana Instance ######################
+######################### Grafana Instance ######################
   grafana-instance:
     name: grafana-instance
     enabled: true
-    argoProject: gepaplexx
+    argoProject: gepardec-run
     destination:
-      namespace: grafana-operator-system
+      namespace: gp-grafana
       create: true
     source:
       repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
-      targetRevision: "*"
+      targetRevision: "{{ or .GrafanaInstanceChartVersion "1.0.*" }}"
       chart: "gp-grafana-instance"
       helm:
         parameters:
           - name: "ingress.hostname"
-            value: "grafana.apps.{{ .env }}.gepaplexx.com"
-          - name: "sso.keycloak.clientSecret"
-            value: "{{ .KeycloakClientSecret }}"
+            value: "grafana.{{ .env }}.run.gepardec.com"
           - name: "sso.keycloak.realmUrl"
-            value: "{{ .KeycloakRealmUrl }}"
+            value: "https://sso.{{ .env }}.run.gepardec.com/realms/internal"
     ignoreDifferences:
       - jsonPointers:
           - /spec/config/auth.generic_oauth/client_secret
@@ -218,24 +140,82 @@ applications:
       automated:
         prune: true
         selfHeal: true
+#
+#  ####################### Grafana Dashboards ######################
+  grafana-dashboards:
+    name: grafana-dashboards
+    enabled: true
+    argoProject: gepardec-run
+    destination:
+      namespace: gp-grafana
+      create: true
+    source:
+      repoURL: "https://github.com/gepaplexx/gepardec-run-cluster-configuration"
+      targetRevision: "{{ or .GrafanaDashboardsChartVersion "main" }}"
+      path: "observability/dashboards/"
+      directory:
+        recurse: true
+        include: "{all/*,{{ .env }}/*}"
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+#
+#  ####################### Multena ######################
+  multena:
+    name: multena
+    enabled: true
+    argoProject: gepardec-run
+    destination:
+      namespace: gp-grafana
+      create: true
+    source:
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
+      targetRevision: "{{ or .MultenaChartVersion "1.0.*" }}"
+      chart: "gp-multena"
+      helm:
+        parameters:
+          - name: "multena.jwksCertUrl"
+            value: https://sso.{{ .env }}.run.gepardec.com/realms/internal/protocol/openid-connect/certs
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
 
-  ##################### VAULT ######################
-    vault:
-      name: vault
-      enabled: true
-      argoProject: gepaplexx
-      destination:
-        namespace: gp-vault
-        create: true
-      source:
-        repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
-        targetRevision: "*"
-        chart: gp-hashicorp-vault
-        helm:
-          parameters:
-            - name: "autoUnseal.creds"
-              value: {{ .AutoUnsealCreds }}
-      syncPolicy:
-        automated:
-          prune: true
-          selfHeal: true
+##################### ALERTMANAGER ######################
+  alertmanager:
+    name: alertmanager
+    enabled: true
+    argoProject: gepardec-run
+    destination:
+      namespace: openshift-user-workload-monitoring
+      create: true
+    source:
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
+      targetRevision: "{{ or .AlertmanagerChartVersion "0.1.*" }}"
+      chart: gp-alertmanager
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
+
+##################### ONE-TIME-SECRET ######################
+  one-time-secret:
+    name: one-time-secret
+    enabled: true
+    argoProject: gepardec-run
+    destination:
+      namespace: gp-one-time-secret
+      create: true
+    source:
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
+      targetRevision: "{{ or .OneTimeSecretChartVersion "1.1.*" }}"
+      chart: gp-one-time-secret
+      helm:
+        parameters:
+          - name: "ingress.hostname"
+            value: "secret.{{ .env }}.run.gepardec.com"
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true
