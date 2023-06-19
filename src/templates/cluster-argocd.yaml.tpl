@@ -18,7 +18,7 @@ spec:
         cpu: 1000m
         memory: 526Mi
       requests:
-        cpu: 250m
+        cpu: 20m
         memory: 128Mi
     route:
       enabled: false
@@ -36,10 +36,10 @@ spec:
       openShiftOAuth: true
       resources:
         limits:
-          cpu: 500m
+          cpu: 100m
           memory: 256Mi
         requests:
-          cpu: 250m
+          cpu: 10m
           memory: 128Mi
     provider: dex
   applicationSet:
@@ -48,7 +48,7 @@ spec:
         cpu: 1
         memory: 1Gi
       requests:
-        cpu: 250m
+        cpu: 10m
         memory: 512Mi
   rbac:
     defaultPolicy: ''
@@ -63,7 +63,7 @@ spec:
         cpu: 1000m
         memory: 512Mi
       requests:
-        cpu: 250m
+        cpu: 20m
         memory: 128Mi
   resourceExclusions: |
     - apiGroups:
@@ -89,7 +89,7 @@ spec:
         cpu: 500m
         memory: 1Gi
       requests:
-        cpu: 250m
+        cpu: 5m
         memory: 128Mi
   controller:
     processors: {}
