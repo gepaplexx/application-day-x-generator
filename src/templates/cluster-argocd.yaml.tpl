@@ -79,6 +79,12 @@ spec:
         - CiliumIdentity
       clusters:
         - "*"
+    - apiGroups:
+        - appcat.vshn.io
+      kinds:
+        - XObjectBucket
+      clusters:
+        - "*"
   ha:
     enabled: false
   tls:
