@@ -30,6 +30,8 @@ applications:
             value: "{{ .env }}"
           - name: "keycloakConfigCli.identityProvider.openshift.baseUrl"
             value: "sso.{{ .env }}.run.gepardec.com"
+          - name: "postgresql.backup.external.bucket"
+            value: "c-gepa-{{ .env }}-keycloak-backup"
     syncPolicy:
       automated:
         prune: true
