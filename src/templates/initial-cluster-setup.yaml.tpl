@@ -71,6 +71,10 @@ applications:
         parameters:
           - name: "ingress.hostname"
             value: "vault.{{ .env }}.run.gepardec.com"
+          - name: "vault.server.ha.disruptionBudget.enabled"
+            value: "false"
+          - name: "backup.external.bucket"
+            value: "c-gepa-{{ .env }}-vault-backup"
     ignoreDifferences:
       - group: admissionregistration.k8s.io
         jsonPointers:
