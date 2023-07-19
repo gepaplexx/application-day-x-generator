@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	atomicgo.dev/cursor v0.1.3
-	github.com/DrSmithFr/go-console v0.0.0-20230312165140-3da65f85318f
+	github.com/DrSmithFr/go-console v0.0.0-20230717101459-b4b93436c58b
 	gopkg.in/yaml.v3 v3.0.1
 )
 
