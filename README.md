@@ -29,50 +29,13 @@ cluster-applications:
             value: "{{ .key2 }}"
 ...
 ```
-
-- Grundgerüst eines ValueBuilders aus Vorlagen/XXXValueBuilder.go kopieren. Eine neue Datei in src/pkg/generator anlegen. Bsp.: 
-```go
-// Datei pgk/src/generator/MyNewValueBuilder.go
-package generator
-
-type MyNewValueBuilder struct{}
-
-func (gen *MyNewValueBuilder) GetValues(config map[string]Value) (map[string]Value, error) {
-    values := make(map[string]Value)
-
-    // TODO
-
-    return values, nil
-}
-```
-
-- GetValues implementieren. Bsp.:
-```go
-// Datei pgk/src/generator/MyNewValueBuilder.go
-package generator
-
-import (
-    utils "gepaplexx/day-x-generator/pkg/util"
-)
-
-type MyNewValueBuilder struct{}
-
-func (gen *MyNewValueBuilder) GetValues(config map[string]Value) (map[string]Value, error) {
-    values := make(map[string]Value)
-
-    values["key1"] = config["val1"]
-    values["key2"] = utils.Base64(config["key2"])
-
-    return values, nil
-}
-```
-- Neuen Generator aktivieren: Dazu muss ein neuer Eintrag in src/pkg/generator/Configuration.go gemacht werden. Bsp.:
+- Generator aktivieren: Dazu muss ein neuer Eintrag in src/pkg/generator/Configuration.go gemacht werden. In den meisten Fällen reicht der GenericCopyValueBuilder aus. Bsp.:
 ```go
 // Datei src/pkg/generator/Configuration.go
 ...
 var GENERATORS = []Generator{
     {
-        ValueBuilder: &MyNewValueBuilder{},
+        ValueBuilder: &GenericCopyValueBuilder{},
         Stage:        ClusterApplications,
         Name:         "my-new-value-builder",
     },
