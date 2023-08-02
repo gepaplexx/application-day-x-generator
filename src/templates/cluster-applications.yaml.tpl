@@ -77,7 +77,7 @@ applications:
           - name: "argo_workflows.server.sso.redirectUrl"
             value: "https://workflows.{{ .env }}.run.gepardec.com/oauth2/callback"
           - name: "argo_workflows.artifactRepository.s3.bucket"
-            value: "c-gepa-{{ .env }-argo-workflows"
+            value: "c-gepa-{{ .env }}-argo-workflows"
     syncPolicy:
       automated:
         prune: true
