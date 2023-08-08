@@ -1,9 +1,9 @@
 module gepaplexx/day-x-generator
 
-go 1.18
+go 1.20
 
 require (
-	atomicgo.dev/cursor v0.1.3
+	atomicgo.dev/cursor v0.2.0
 	github.com/DrSmithFr/go-console v0.0.0-20230717101459-b4b93436c58b
 	gopkg.in/yaml.v3 v3.0.1
 )
