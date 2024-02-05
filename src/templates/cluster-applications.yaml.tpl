@@ -203,27 +203,6 @@ applications:
         prune: true
         selfHeal: true
 
-##################### ONE-TIME-SECRET ######################
-  one-time-secret:
-    name: one-time-secret
-    enabled: true
-    argoProject: gepardec-run
-    destination:
-      namespace: gp-one-time-secret
-      create: true
-    source:
-      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
-      targetRevision: "{{ or .OneTimeSecretChartVersion "1.1.*" }}"
-      chart: gp-one-time-secret
-      helm:
-        parameters:
-          - name: "ingress.hostname"
-            value: "secret.{{ .env }}.run.gepardec.com"
-    syncPolicy:
-      automated:
-        prune: true
-        selfHeal: true
-
 ######################## PRIVATE BIN ##########################
 
   private-bin:

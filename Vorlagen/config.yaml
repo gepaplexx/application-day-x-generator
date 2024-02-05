@@ -67,9 +67,6 @@ cluster-applications:
   altermanager:
     AlertmanagerChartVersion: "*" 
 
-  one-time-secret:
-    OneTimeSecretChartVersion: "*"
-
   private-bin:
     PrivateBinChartVersion: "0.1.*"
     

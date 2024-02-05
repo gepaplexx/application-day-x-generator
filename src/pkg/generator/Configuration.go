@@ -74,11 +74,6 @@ var GENERATORS = []Generator{
 	{
 		ValueBuilder: &GenericCopyValueBuilder{},
 		Stage:        ClusterApplications,
-		Name:         "one-time-secret",
-	},
-	{
-		ValueBuilder: &GenericCopyValueBuilder{},
-		Stage:        ClusterApplications,
 		Name:         "private-bin",
 	},
 	{
