@@ -1,4 +1,4 @@
-env: "" # zBsp.: play
+env: "play" # zBsp.: play
 
 argo-bootstrap:
   cluster-applications:
@@ -68,7 +68,10 @@ cluster-applications:
     AlertmanagerChartVersion: "*" 
 
   one-time-secret:
-    OneTimeSecretChartVersion: "*" 
+    OneTimeSecretChartVersion: "*"
+
+  private-bin:
+    PrivateBinChartVersion: "0.1.*"
     
 vault-setup-script:
   ArgoCdWFRepoUser: ""

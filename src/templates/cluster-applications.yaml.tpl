@@ -223,3 +223,25 @@ applications:
       automated:
         prune: true
         selfHeal: true
+
+######################## PRIVATE BIN ##########################
+
+  private-bin:
+    name: private-bin
+    enabled: true
+    argoProject: gepardec-run
+    destination:
+      namespace: gp-privatebin
+      create: true
+    source:
+      repoURL: "https://gepaplexx.github.io/gp-helm-charts/"
+      targetRevision: "{{ or .PrivateBinChartVersion "0.1.*" }}"
+      chart: gp-privatebin
+      helm:
+        parameters:
+          - name: "ingress.hostname"
+            value: "pb.{{ .env }}.run.gepardec.com"
+    syncPolicy:
+      automated:
+        prune: true
+        selfHeal: true

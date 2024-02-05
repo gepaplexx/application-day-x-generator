@@ -78,6 +78,11 @@ var GENERATORS = []Generator{
 	},
 	{
 		ValueBuilder: &GenericCopyValueBuilder{},
+		Stage:        ClusterApplications,
+		Name:         "private-bin",
+	},
+	{
+		ValueBuilder: &GenericCopyValueBuilder{},
 		Stage:        VaultSetupScript,
 	},
 	{
