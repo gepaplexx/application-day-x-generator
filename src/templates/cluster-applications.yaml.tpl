@@ -219,7 +219,7 @@ applications:
       helm:
         parameters:
           - name: "ingress.hostname"
-            value: "pb.{{ .env }}.run.gepardec.com"
+            value: "secret.{{ .env }}.run.gepardec.com"
     syncPolicy:
       automated:
         prune: true
