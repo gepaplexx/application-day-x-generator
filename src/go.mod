@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	atomicgo.dev/cursor v0.2.0
-	github.com/DrSmithFr/go-console v0.0.0-20240210182728-c1ad89cf8014
+	github.com/DrSmithFr/go-console v0.0.0-20240213203601-0efc7b6b93db
 	gopkg.in/yaml.v3 v3.0.1
 )
 

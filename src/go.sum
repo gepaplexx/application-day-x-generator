@@ -6,6 +6,8 @@ github.com/DrSmithFr/go-console v0.0.0-20240130153010-f2f3b6545404 h1:dV4pM3LlTw
 github.com/DrSmithFr/go-console v0.0.0-20240130153010-f2f3b6545404/go.mod h1:5x/X74DheJJ9M5loG5aEZIWMciC3q0ohxo1jdqqj25s=
 github.com/DrSmithFr/go-console v0.0.0-20240210182728-c1ad89cf8014 h1:ftioSfmbkp+kQmMp2FVPqmF3KUyj29mfAmDGUth+xpU=
 github.com/DrSmithFr/go-console v0.0.0-20240210182728-c1ad89cf8014/go.mod h1:5x/X74DheJJ9M5loG5aEZIWMciC3q0ohxo1jdqqj25s=
+github.com/DrSmithFr/go-console v0.0.0-20240213203601-0efc7b6b93db h1:tDg0Ouv1dmJd2iqvVTZfbpr/GhFHVfNEF7C9hezCaxI=
+github.com/DrSmithFr/go-console v0.0.0-20240213203601-0efc7b6b93db/go.mod h1:5x/X74DheJJ9M5loG5aEZIWMciC3q0ohxo1jdqqj25s=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
 github.com/kr/pty v1.1.1/go.mod h1:pFQYn66WHrOpPYNljwOMqo10TkYh1fy3cYio2l3bCsQ=
 github.com/kr/text v0.1.0/go.mod h1:4Jbv+DJW3UT/LiOwJeYQe1efqtUx/iVham/4vfdArNI=
