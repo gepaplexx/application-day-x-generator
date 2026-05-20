@@ -16,7 +16,7 @@ jobs:
         id: source-version
         run: |
           echo "::set-output name=version::$(cat version)"
-      - uses: mr-smithers-excellent/docker-build-push@v6
+      - uses: mr-smithers-excellent/docker-build-push@v7
         name: push-container-image
         with:
           image: day-x-generator
